@@ -1,11 +1,36 @@
 import { motion } from "framer-motion";
 import KakaoLoginButton from "./KakaoLoginButton";
 
+import worker1 from "../assets/images/worker1.png";
+import worker2 from "../assets/images/worker2.png";
+import worker3 from "../assets/images/worker3.png";
 
 export default function Hero() {
   return (
-    <section className="h-screen flex flex-col md:flex-row justify-center items-center gap-10 bg-gradient-to-b from-white to-blue-50 px-6 text-center md:text-left">
-      <div className="max-w-xl">
+    <section className="relative h-screen flex flex-col justify-center items-center px-6 bg-gradient-to-b from-[#FFF8F0] to-[#E0F2FF] overflow-hidden">
+      
+      {/* 🎨 3개 캐릭터 이미지: 일정 간격으로 가운데 정렬 */}
+      <div className="absolute w-full h-full z-0 pointer-events-none opacity-90">
+        <img
+          src={worker1}
+          alt="worker1"
+          className="absolute top-1/2 left-[10%] w-[250px] -translate-y-1/2 object-contain"
+        />
+        <img
+          src={worker2}
+          alt="worker2"
+          className="absolute top-1/2 left-[45%] w-[250px] -translate-y-1/2 object-contain"
+        />
+        <img
+          src={worker3}
+          alt="worker3"
+          className="absolute top-1/2 right-[10%] w-[250px] -translate-y-1/2 object-contain"
+        />
+      </div>
+
+
+      {/* 🎯 텍스트 콘텐츠 */}
+      <div className="relative z-10 text-center max-w-xl">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -16,7 +41,8 @@ export default function Hero() {
           <span className="text-blue-600">AI 챗봇</span>으로 지켜드립니다.
         </motion.h1>
         <p className="text-gray-600 mt-4 text-base md:text-lg">
-          부당해고, 임금 체불, 산업재해까지.<br className="hidden md:block" /> 전문가급 답변을 실시간으로 제공해 드립니다.
+          부당해고, 임금 체불, 산업재해까지.<br className="hidden md:block" />
+          전문가급 답변을 실시간으로 제공해 드립니다.
         </p>
         <a
           href="/gradio"
@@ -24,10 +50,8 @@ export default function Hero() {
         >
           지금 상담 시작하기
         </a>
-         <KakaoLoginButton />
+        <KakaoLoginButton />
       </div>
-
-    
     </section>
   );
 }
