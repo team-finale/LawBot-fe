@@ -5,7 +5,7 @@ export default function Header() {
         <div className="text-xl font-bold text-blue-600">노동권챗봇</div>
         <nav className="space-x-6 text-gray-700">
           <a href="#features" className="hover:text-blue-500">서비스</a>
-          <a href="#chat" className="hover:text-blue-500">상담하기</a>
+          <a href="/gradio" className="hover:text-blue-500">상담하기</a>
           <a href="#faq" className="hover:text-blue-500">FAQ</a>
           <a href="/login" className="hover:text-blue-500">로그인</a>
         </nav>
