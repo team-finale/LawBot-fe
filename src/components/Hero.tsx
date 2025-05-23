@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import KakaoLoginButton from "./KakaoLoginButton";
 
 
 export default function Hero() {
@@ -23,6 +24,7 @@ export default function Hero() {
         >
           지금 상담 시작하기
         </a>
+         <KakaoLoginButton />
       </div>
 
     
