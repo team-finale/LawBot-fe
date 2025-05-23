@@ -19,7 +19,7 @@ export default function Hero() {
           부당해고, 임금 체불, 산업재해까지.<br className="hidden md:block" /> 전문가급 답변을 실시간으로 제공해 드립니다.
         </p>
         <a
-          href="#chat"
+          href="/gradio"
           className="mt-8 inline-block px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition"
         >
           지금 상담 시작하기
