@@ -7,24 +7,24 @@ import worker3 from "../assets/images/worker3.png";
 
 export default function Hero() {
   return (
-    <section className="relative h-screen flex flex-col justify-center items-center px-6 bg-gradient-to-b from-[#FFF8F0] to-[#E0F2FF] overflow-hidden">
+    <section className="relative h-screen flex flex-col justify-center items-center px-6 bg-gradient-to-b from-[#FFFFFF] to-[#FFF8F0] overflow-hidden">
       
       {/* 🎨 3개 캐릭터 이미지: 일정 간격으로 가운데 정렬 */}
       <div className="absolute w-full h-full z-0 pointer-events-none opacity-90">
         <img
           src={worker1}
           alt="worker1"
-          className="absolute top-1/2 left-[10%] w-[250px] -translate-y-1/2 object-contain"
+          className="absolute top-1/2 left-[10%] w-[320px] -translate-y-1/2 object-contain"
         />
         <img
           src={worker2}
           alt="worker2"
-          className="absolute top-1/2 left-[45%] w-[250px] -translate-y-1/2 object-contain"
+          className="absolute top-1/2 left-[45%] w-[320px] -translate-y-1/2 object-contain"
         />
         <img
           src={worker3}
           alt="worker3"
-          className="absolute top-1/2 right-[10%] w-[250px] -translate-y-1/2 object-contain"
+          className="absolute top-1/2 right-[10%] w-[320px] -translate-y-1/2 object-contain"
         />
       </div>
 
@@ -34,7 +34,7 @@ export default function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1.0 }}
           className="text-4xl md:text-5xl font-bold leading-tight text-gray-900"
         >
           당신의 노동권,<br className="hidden md:block" />

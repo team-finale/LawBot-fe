@@ -9,7 +9,7 @@ const features = [
 export default function Features() {
   return (
     <section id="features" className="py-24 bg-white text-center">
-      <h2 className="text-3xl md:text-4xl font-bold mb-10">이런 기능을 제공합니다</h2>
+      <h2 className="text-4xl md:text-4xl font-bold mb-10">이로운을 소개합니다!</h2>
       <div className="max-w-3xl mx-auto space-y-8">
         {features.map((feature, index) => (
           <motion.div

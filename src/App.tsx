@@ -8,14 +8,15 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="font-pretendard">
+    <div className="font-pretendard bg-red-200">
       <Header />
-      <main className="pt-20">
+      <main className="main-content">
         <Hero />
         <Features />
         <CTA />
       </main>
       <Footer />
+      
     </div>
   );
 }
