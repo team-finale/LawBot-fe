@@ -42,7 +42,7 @@ export default function Hero() {
         </motion.h1>
         <p className="text-gray-600 mt-4 text-base md:text-lg">
           부당해고, 임금 체불, 산업재해까지.<br className="hidden md:block" />
-          전문가급 답변을 실시간으로 제공해 드립니다.
+          실시간으로 빠르고 정확하게 도와드릴게요!
         </p>
         <a
           href="/gradio"

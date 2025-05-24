@@ -3,10 +3,9 @@ import React from "react";
 //const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
 //const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
 
-
 const KakaoLoginButton: React.FC = () => {
   const handleLogin = () => {
-    window.location.href = "http://2lawon.com/api/users/login/kakao";
+    window.location.href = "http://2lawon.com:8000/api/users/login/kakao";
   };
 
   return (

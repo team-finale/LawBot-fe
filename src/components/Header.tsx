@@ -5,7 +5,7 @@ export default function Header() {
         <div className="text-lg font-bold text-blue-600">이로운</div>
 
         <nav className="flex items-center space-x-6">
-          <a href="#features" className="hover:text-black no-underline transition">서비스</a>
+          <a href="/gradio" className="hover:text-black no-underline transition">카카오 로그인</a>
           <a href="/gradio" className="hover:text-black no-underline transition">상담 시작하기</a>
           <a href="#faq" className="hover:text-black no-underline transition">자주 묻는 질문</a>
           <a href="/login" className="hover:text-black no-underline transition">로그인</a>
