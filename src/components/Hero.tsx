@@ -29,7 +29,7 @@ export default function Hero() {
       </div>
 
 
-      {/* 🎯 텍스트 콘텐츠 */}
+      {/*  텍스트 콘텐츠 */}
       <div className="relative z-10 text-center max-w-xl">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
