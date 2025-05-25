@@ -5,7 +5,6 @@ export default {
     extend: {
       fontFamily: {
         pretendard: ['Pretendard', 'sans-serif'],
-        sans: ['Pretendard', 'sans-serif'],
       },
     },
   },

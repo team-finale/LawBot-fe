@@ -9,12 +9,9 @@ const KakaoLoginButton: React.FC = () => {
   };
 
   return (
-    <button
-      onClick={handleLogin}
-      className="mt-4 inline-block px-6 py-3 bg-yellow-400 text-black rounded-full hover:bg-yellow-300 transition"
-    >
-      카카오로 시작하기
-    </button>
+   <button onClick={handleLogin} className="button-kakao">
+  카카오로 시작하기
+</button>
   );
 };
 

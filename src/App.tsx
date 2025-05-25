@@ -1,36 +1,41 @@
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Features from './components/Features';
-import CTA from './components/CTA';
 import Footer from './components/Footer';
 import Lawyer from './components/Lawyers';
 import LawyerImageUpload from './pages/LawyerImageUpload';
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
+import Kakao from './components/Kakao';
+import Gradio from './components/gradio';
+import CommunityBoard from './pages/CommunityBoard';
+import Community from './components/community';
 
-function Home(){
+function Home() {
   return (
     <>
       <Header />
-      <main className="main-content">
+      <main className="main">
         <Hero />
         <Features />
-        <Lawyer/>
-        <CTA />
+        <Kakao />
+        <Gradio />
+        <Lawyer />
+        <Community />
       </main>
       <Footer />
     </>
   );
-
 }
 
 
 function App() {
   return (
-    <div className="font-pretendard bg-red-200">
+    <div className="app">
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/lawyer-verification" element={<LawyerImageUpload/>} />
+          <Route path="/lawyer-verification" element={<LawyerImageUpload />} />
+          <Route path="/community" element={<CommunityBoard />} />
         </Routes>
       </Router>
     </div>
