@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import axios from "axios";
+import Footer from "../components/Footer";
+import "./LawyerImageUpload.css";
 
 const LawyerImageUpload = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -39,32 +41,25 @@ const LawyerImageUpload = () => {
   };
 
   return (
-    <div>
-    <Header/>
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">노무사 인증</h2>
-      <input type="file" accept="image/*" onChange={handleFileChange} />
-      <button
-        onClick={handleUpload}
-        className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      >
-        이미지 업로드하기
-      </button>
+     <div>
+      <div className="header-fixed">
+        <Header />
+      </div>
 
-     {/* ✅ 업로드 성공 시 이미지 미리보기 */}
+      <div className="upload-container">
+        <h2>노무사 인증</h2>
+        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <button onClick={handleUpload}>이미지 업로드하기</button>
+
         {uploadedUrl && (
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-2">업로드된 이미지 미리보기</h3>
-            <img
-              src={uploadedUrl}
-              alt="업로드 파일 미리보기"
-              className="w-64 h-auto rounded shadow-md border"
-            />
+          <div className="preview">
+            <h3>업로드된 이미지 미리보기</h3>
+            <img src={uploadedUrl} alt="업로드 이미지" />
           </div>
-      )}
+        )}
+      </div>
 
-
-    </div>
+      <Footer />
     </div>
   );
 };

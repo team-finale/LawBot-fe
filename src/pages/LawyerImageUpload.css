@@ -1,0 +1,48 @@
+.header-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.upload-container {
+  max-width: 600px;
+  margin: 120px auto 40px; /* 상단 헤더 공간 + 가운데 정렬 */
+  padding: 20px;
+  text-align: center;
+}
+
+.upload-container h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.upload-container button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-weight: bold;
+  color: white;
+  background-color: #2563eb;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.upload-container button:hover {
+  background-color: #1d4ed8;
+}
+
+.preview {
+  margin-top: 30px;
+}
+
+.preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ddd;
+}
