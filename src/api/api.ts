@@ -1,4 +1,4 @@
-import axios from "axios";
+/*import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://2lawon.com/api", // API 주소
@@ -12,4 +12,4 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export default api;
+export default api;*/
