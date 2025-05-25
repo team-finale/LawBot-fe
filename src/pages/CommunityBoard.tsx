@@ -22,16 +22,16 @@ const CommunityBoard = () => {
         .map((tag) => tag.trim())
         .filter((tag) => tag !== "");
 
-      const res = await axios.post(
+      await axios.post(
         "http://2lawon.com:8000/api/community",
-        { title, content, tags: tagList },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+           { title, content, tags: tagList },
+            {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
 
       alert("게시글이 등록되었습니다!");
       setTitle("");
