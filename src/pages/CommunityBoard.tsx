@@ -2,12 +2,12 @@ import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import axios from "axios";
-import "./CommunityBoard.css"; // ✅ 이 파일에 CSS 추가
+import "./CommunityBoard.css";
 
 const CommunityBoard = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+  const [tag, setTag] = useState(""); // ✅ 하나의 태그만 선택
 
   const handleCreatePost = async () => {
     const token = localStorage.getItem("access_token");
@@ -17,26 +17,25 @@ const CommunityBoard = () => {
     }
 
     try {
-      const tagList = tags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter((tag) => tag !== "");
-
       await axios.post(
         "https://2lawon.com/api/community",
-           { title, content, tags: tagList },
-            {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                  },
-                }
-              );
+        {
+          title,
+          content,
+          tags: tag ? [tag] : [], // ✅ 하나의 태그를 배열로 전송
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       alert("게시글이 등록되었습니다!");
       setTitle("");
       setContent("");
-      setTags("");
+      setTag("");
     } catch (error: any) {
       alert("등록 실패: " + (error.response?.data?.detail || error.message));
     }
@@ -77,12 +76,15 @@ const CommunityBoard = () => {
           </label>
 
           <label>
-            태그 (쉼표로 구분)
-            <input
-              type="text"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-            />
+            태그 선택
+            <select value={tag} onChange={(e) => setTag(e.target.value)} required>
+              <option value="">-- 태그를 선택하세요 --</option>
+              <option value="unfair_dismissal">부당해고</option>
+              <option value="industrial_accident">산업재해</option>
+              <option value="wage_arrears">임금체불</option>
+              <option value="sexual_harassment">성희롱</option>
+              <option value="labor_union">노동조합</option>
+            </select>
           </label>
 
           <button type="submit">게시글 등록</button>
