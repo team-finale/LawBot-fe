@@ -20,6 +20,4 @@ const CommunityBoard = () => {
 );
 };
 
-
-       
 export default CommunityBoard;
