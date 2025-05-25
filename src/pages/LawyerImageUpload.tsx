@@ -48,7 +48,7 @@ const LawyerImageUpload = () => {
 
       <main className="page-content">
         <div className="upload-container">
-          <h2>노무사 인증</h2>
+          <h2>노무사 인증을 진행해주세요(로그인 먼저)</h2>
           <input type="file" accept="image/*" onChange={handleFileChange} />
           <button onClick={handleUpload}>이미지 업로드하기</button>
 
