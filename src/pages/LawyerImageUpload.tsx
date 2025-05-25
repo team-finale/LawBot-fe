@@ -41,23 +41,25 @@ const LawyerImageUpload = () => {
   };
 
   return (
-     <div>
+    <div className="page-wrapper">
       <div className="header-fixed">
         <Header />
       </div>
 
-      <div className="upload-container">
-        <h2>노무사 인증</h2>
-        <input type="file" accept="image/*" onChange={handleFileChange} />
-        <button onClick={handleUpload}>이미지 업로드하기</button>
+      <main className="page-content">
+        <div className="upload-container">
+          <h2>노무사 인증</h2>
+          <input type="file" accept="image/*" onChange={handleFileChange} />
+          <button onClick={handleUpload}>이미지 업로드하기</button>
 
-        {uploadedUrl && (
-          <div className="preview">
-            <h3>업로드된 이미지 미리보기</h3>
-            <img src={uploadedUrl} alt="업로드 이미지" />
-          </div>
-        )}
-      </div>
+          {uploadedUrl && (
+            <div className="preview">
+              <h3>업로드된 이미지 미리보기</h3>
+              <img src={uploadedUrl} alt="업로드 이미지" />
+            </div>
+          )}
+        </div>
+      </main>
 
       <Footer />
     </div>
