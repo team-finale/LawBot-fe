@@ -6,8 +6,8 @@ const Community = () => {
 
   return (
     <section id="community" className="community-section">
-      <h1 className="community-title">이로운에 오신 것을 환영합니다!</h1>
-      <p className="community-subtitle">노무사 인증을 통해 전문가 서비스를 시작하세요.</p>
+      <h1 className="community-title">함께 나누고, 함께 이겨내요</h1>
+      <p className="community-subtitle">작은 이야기 하나도 누군가에겐 큰 힘이 되니까요</p>
       <button onClick={() => navigate("/community")} className="community-button">
         커뮤니티
       </button>

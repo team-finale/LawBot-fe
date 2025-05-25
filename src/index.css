@@ -38,34 +38,24 @@ h1 {
 
 
 .button-kakao {
+  padding: 12px 24px;
   background-color: #facc15; /* Tailwind yellow-400 */
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
   color: #000000;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
 
 .button-kakao:hover {
   background-color: #fbbf24; /* Tailwind yellow-300 */
   border-color: #e5b93c;
+  transform: scale(1.03);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 700;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #624E3E;
-  background-color: #624E3E;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -80,11 +70,10 @@ button:focus-visible {
   }
 }
 
-
 /*헤더*/
 .header {
   position: fixed;
-  top: 10;
+  top: 0;
   left: 0;
   width: 100%;
   background-color: white;
