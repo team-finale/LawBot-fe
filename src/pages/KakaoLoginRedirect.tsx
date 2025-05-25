@@ -1,28 +1,48 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const KakaoRedirectPage = () => {
+export default function Header() {
+  const [userName, setUserName] = useState<string | null>(null);
+
   useEffect(() => {
-    const params = new URL(window.location.href).searchParams;
-    const token = params.get("access_token");
-    const user_id = params.get("user_id");
-    const user_name = params.get("user_name");
-
-    if (!token || !user_id || !user_name) {
-      alert("로그인 정보가 누락되었습니다.");
-      window.location.href = "/";
-      return;
+    const storedName = localStorage.getItem("user_name");
+    if (storedName) {
+      setUserName(storedName);
     }
-
-    // ✅ 서버가 넘긴 정보를 저장
-    localStorage.setItem("access_token", token);
-    localStorage.setItem("user_id", user_id);
-    localStorage.setItem("user_name", user_name);
-
-    alert(`${user_name}님 로그인되었습니다.`);
-    window.location.href = "/";
   }, []);
 
-  return <p style={{ textAlign: "center", marginTop: "100px" }}>로그인 처리 중입니다...</p>;
-};
+  return (
+    <header className="header">
+      <div className="header-container">
+        <div className="logo">이로운</div>
 
-export default KakaoRedirectPage;
+        <nav className="nav">
+          {userName ? (
+            <>
+              <span>{userName}님 환영합니다</span>
+              <a
+                href="#"
+                onClick={() => {
+                  localStorage.removeItem("access_token");
+                  localStorage.removeItem("user_name");
+                  window.location.reload();
+                }}
+              >
+                로그아웃
+              </a>
+            </>
+          ) : (
+            <a href="http://2lawon.com:8000/api/users/login/kakao">카카오 로그인</a>
+          )}
+          <a href="/gradio">상담 시작하기</a>
+          <a href="/lawyer-verification">노무사 인증</a>
+          <a href="/community">커뮤니티</a>
+          <div className="lang">
+            <span>한국어</span>
+            <span>|</span>
+            <span>ENG</span>
+          </div>
+        </nav>
+      </div>
+    </header>
+  );
+}
