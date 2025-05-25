@@ -1,0 +1,16 @@
+.kakao-section {
+  text-align: center;
+  background-color: #ffffff;
+  padding: 80px 20px;
+}
+
+.kakao-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.kakao-subtitle {
+  font-size: 18px;
+  margin-bottom: 24px;
+}
