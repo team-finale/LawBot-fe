@@ -23,7 +23,7 @@ const CommunityBoard = () => {
         .filter((tag) => tag !== "");
 
       await axios.post(
-        "http://2lawon.com:8000/api/community",
+        "https://2lawon.com/api/community",
            { title, content, tags: tagList },
             {
                   headers: {
