@@ -23,7 +23,7 @@ const LawyerImageUpload = () => {
     formData.append("file", file);
 
     try {
-      const res = await axios.post("https://2lawon.com:8000/api/users/cpla/image/save", formData, {
+      const res = await axios.post("https://2lawon.com/api/users/cpla/image/save", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           //Authorization: `Bearer ${localStorage.getItem("access_token")}`,
