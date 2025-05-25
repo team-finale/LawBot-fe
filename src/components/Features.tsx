@@ -1,64 +1,54 @@
-import { motion } from "framer-motion";
-
-const features = [
-  "LLM과 RAG 챗봇 활용한 부당해고, 징계, 산업재해에 대한 실시간 법률 자문",
-  "OCR 활용 부당한 계약서 식별",
-  "자문 내용 기반 사용자맞춤 전문 노무사 매칭",
-  "법률 퀴즈",
-];
+import "./Features.css";
 
 export default function Features() {
   return (
-    <section id="features" className="bg-[#ffffff] py-24 px-6">
+    <section className="alt-sections">
 
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        
-        {/* 왼쪽 텍스트 영역 */}
-        <div className="flex-1 text-left">
-          <p className="text-blue-600 font-semibold text-sm mb-2">💼 주요 기능</p>
-          <h2 className="text-4xl font-bold mb-6 leading-snug">
-            이로운이 제공하는<br />
-            핵심 서비스입니다
-          </h2>
-          <p className="text-gray-600 mb-8">
-            근로자가 겪는 다양한 노동 문제에 대해<br />
-            실시간 상담과 법률 가이드를 제공합니다.
+      {/* 섹션 1 - 텍스트 왼쪽 */}
+      <div className="alt-row">
+        <div className="alt-text">
+          <p className="alt-subtitle">😊 노동권 보호</p>
+          <h2 className="alt-title">실시간으로 쉽게<br />접근할 수 있는 이로운</h2>
+          <p className="alt-description">
+            취약 노동자들이 실시간으로 권리 침해를 파악하고,<br />
+            후속 절차를 안내받을 수 있는 서비스 제공
           </p>
-
-          <div className="space-y-5">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className="text-base text-gray-700 leading-relaxed"
-              >
-                ✅ {feature}
-              </motion.div>
-            ))}
-          </div>
         </div>
-
-        {/* 오른쪽 시각 카드 영역 */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="flex-1 max-w-md w-full bg-white rounded-xl shadow-xl p-8 text-center"
-        >
-          <div className="text-blue-500 text-3xl mb-4">📘</div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">
-            법률 서비스 통합 지원
-          </h3>
-          <p className="text-gray-600 text-sm">
-            이로운은 근로자의 권리를 지키기 위한 실질적 도움을 제공합니다.
-          </p>
-        </motion.div>
       </div>
+
+      {/* 섹션 2 - 텍스트 오른쪽 */}
+      <div className="alt-row reverse">
+        <div className="alt-text">
+          <p className="alt-subtitle">🔥 사회적 분쟁 비용 절감</p>
+          <h2 className="alt-title">분쟁 예방을 통한 <br />사회적 갈등 비용 절감의 이로운</h2>
+          <p className="alt-description">
+            실시간 법률 상담을 통한 문제 해결을 통해,<br />
+            고용노동 민원의 1차 사전 해결율 제고<br />
+          </p>
+        </div>
+      </div>
+
+       <div className="alt-row">
+        <div className="alt-text">
+          <p className="alt-subtitle">✨ 법률 접근성 향상</p>
+          <h2 className="alt-title">복잡한 노동 법률 절차에 대한 <br />부담을 줄이는 이로운</h2>
+          <p className="alt-description">
+            법률 퀴즈를 통해,<br />
+            노동자가 어렵게 느끼는 법적 개념을<br/>
+            쉽고 재밌게 익히는 서비스 제공
+          </p>
+        </div>
+      </div>
+
       
+      <div className="alt-row reverse center-text">
+        
+          
+          <h2 className="alt-title">"사용자의 고용노동 문제를 실시간으로 정확하게 파악하고, 누구나 쉽게 접근해, <br/>권리 보호와 문제 해결을 자동화하는 플랫폼" </h2>
+          
+        
+      </div>
+
     </section>
   );
 }

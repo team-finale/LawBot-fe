@@ -1,0 +1,59 @@
+.alt-sections {
+  background-color: #f9fafa;
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+}
+
+.alt-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.alt-row.reverse {
+  justify-content: flex-end;
+}
+
+.alt-text {
+  max-width: 540px;
+  text-align: left;
+  padding: 0 20px;    
+}
+
+.alt-row.center-text {
+  justify-content: center;
+  text-align: center;
+}
+
+
+
+.alt-row:not(.reverse) .alt-text {
+  margin-left: 400px;         /* ✅ 왼쪽 텍스트 여유 공간 */
+}
+
+.alt-row.reverse .alt-text {
+  margin-right: 400px;        /* ✅ 오른쪽 텍스트 여유 공간 */
+}
+
+
+.alt-subtitle {
+  color: #5c4435;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.alt-title {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+.alt-description {
+  font-size: 17px;
+  color: #6b7280;
+  line-height: 1.6;
+}
