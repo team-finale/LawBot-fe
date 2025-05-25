@@ -1,23 +1,52 @@
-.page-wrapper {
+.community-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.community-form {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  gap: 16px;
 }
 
-.header-fixed {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: white;
-  z-index: 1000;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+.community-form label {
+  font-weight: 500;
+  color: #444;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
 }
 
-.page-content {
-  flex: 1;
-  padding-top: 80px; /* 헤더 높이만큼 아래로 밀기 */
-  padding: 40px 20px;
-  max-width: 800px;
-  margin: 0 auto;
+.community-form input,
+.community-form textarea {
+  margin-top: 6px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: inherit;
+  background-color: #fffdfc;
+}
+
+.community-form textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+.community-form button {
+  align-self: flex-start;
+  padding: 10px 20px;
+  background-color: #624e3e;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.community-form button:hover {
+  background-color: #876e59;
 }

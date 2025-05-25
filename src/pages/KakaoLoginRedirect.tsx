@@ -1,41 +1,28 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import MyInfoPage from "./LoginSuccess";
+import { useEffect } from "react";
 
 const KakaoRedirectPage = () => {
-  const [tokenReady, setTokenReady] = useState(false);
-
   useEffect(() => {
-    const code = new URL(window.location.href).searchParams.get("code");
-    if (!code) return;
+    const params = new URL(window.location.href).searchParams;
+    const token = params.get("access_token");
+    const user_id = params.get("user_id");
+    const user_name = params.get("user_name");
 
-    axios
-      .get("http://2lawon.com/api/users/login/kakao/callback", {
-        params: { code, agree: true },
-      })
-      .then((res) => {
-        const token = res.data.access_token;
-        localStorage.setItem("access_token", token);
-        setTokenReady(true); // ✅ 이제 MyInfoPage 보여줄 수 있음
-      })
-      .catch((err) => {
-        console.error("로그인 실패:", err);
-      });
+    if (!token || !user_id || !user_name) {
+      alert("로그인 정보가 누락되었습니다.");
+      window.location.href = "/";
+      return;
+    }
+
+    // ✅ 서버가 넘긴 정보를 저장
+    localStorage.setItem("access_token", token);
+    localStorage.setItem("user_id", user_id);
+    localStorage.setItem("user_name", user_name);
+
+    alert(`${user_name}님 로그인되었습니다.`);
+    window.location.href = "/";
   }, []);
 
-  if (!tokenReady) return <p>로그인 중입니다...</p>;
-
-   return (
-    <div className="text-center mt-10">
-      <MyInfoPage />
-      <a
-        href="https://2lawon.com"
-        className="mt-6 inline-block px-6 py-2 bg-gray-800 text-white rounded-full hover:bg-gray-700 transition"
-      >
-        시작하기
-      </a>
-    </div>
-  );
+  return <p style={{ textAlign: "center", marginTop: "100px" }}>로그인 처리 중입니다...</p>;
 };
 
 export default KakaoRedirectPage;
