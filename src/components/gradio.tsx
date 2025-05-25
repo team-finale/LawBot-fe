@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./gradio.css"
 const Gradio = () => {
-  const navigate = useNavigate();
+  /*const navigate = useNavigate();*/
 
   return (
     <section id="gradio" className="gradio-section">
