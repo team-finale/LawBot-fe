@@ -31,7 +31,7 @@ export default function Header() {
               </a>
             </>
           ) : (
-            <a href="http://2lawon.com:8000/api/users/login/kakao">카카오 로그인</a>
+            <a href="https://2lawon.com/api/users/login/kakao">카카오 로그인</a>
           )}
           <a href="/gradio">상담 시작하기</a>
           <a href="/lawyer-verification">노무사 인증</a>

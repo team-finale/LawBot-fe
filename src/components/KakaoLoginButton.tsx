@@ -5,7 +5,7 @@ import React from "react";
 
 const KakaoLoginButton: React.FC = () => {
   const handleLogin = () => {
-    window.location.href = "http://2lawon.com:8000/api/users/login/kakao";
+    window.location.href = "https//2lawon.com/api/users/login/kakao";
   };
 
   return (
