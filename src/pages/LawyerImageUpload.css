@@ -25,14 +25,14 @@
   padding: 10px 20px;
   font-weight: bold;
   color: white;
-  background-color: #2563eb;
+  background-color: #624E3E;
   border: none;
   border-radius: 6px;
   cursor: pointer;
 }
 
 .upload-container button:hover {
-  background-color: #1d4ed8;
+  background-color: #624E3E;
 }
 
 .preview {
