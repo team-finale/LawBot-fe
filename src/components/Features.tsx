@@ -14,11 +14,12 @@ export default function Features() {
         viewport={{ once: true }}
       >
         <div className="alt-text">
-          <p className="alt-subtitle">😊 노동권 보호</p>
-          <h2 className="alt-title">실시간으로 쉽게<br />접근할 수 있는 이로운</h2>
-          <p className="alt-description">
-            취약 노동자들이 실시간으로 권리 침해를 파악하고,<br />
-            후속 절차를 안내받을 수 있는 서비스 제공
+          <p className="alt-subtitle">😊 법률 접근성 향상</p>
+          <h2 className="alt-title">복잡한 노동 법률 절차에 대한 <br />부담을 줄이는 이로운</h2>
+           <p className="alt-description">
+            법률 퀴즈를 통해,<br />
+            노동자가 어렵게 느끼는 법적 개념을<br />
+            쉽고 재밌게 익히는 서비스 제공
           </p>
         </div>
       </motion.div>
@@ -50,13 +51,13 @@ export default function Features() {
         viewport={{ once: true }}
       >
         <div className="alt-text">
-          <p className="alt-subtitle">✨ 법률 접근성 향상</p>
-          <h2 className="alt-title">복잡한 노동 법률 절차에 대한 <br />부담을 줄이는 이로운</h2>
+          <p className="alt-subtitle">✨ 노동권 보호</p>
+          <h2 className="alt-title">실시간으로 쉽게<br />접근할 수 있는 이로운</h2>
           <p className="alt-description">
-            법률 퀴즈를 통해,<br />
-            노동자가 어렵게 느끼는 법적 개념을<br />
-            쉽고 재밌게 익히는 서비스 제공
+            취약 노동자들이 실시간으로 권리 침해를 파악하고,<br />
+            후속 절차를 안내받을 수 있는 서비스 제공
           </p>
+         
         </div>
       </motion.div>
 

@@ -16,6 +16,14 @@ const CommunityBoard = () => {
       return;
     }
 
+
+    const postData = {
+      title,
+      content,
+      tags: tag ? [tag] : [],
+    };
+
+
     try {
       await axios.post(
         "https://2lawon.com/api/community",
