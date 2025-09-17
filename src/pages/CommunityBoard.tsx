@@ -17,11 +17,11 @@ const CommunityBoard = () => {
     }
 
 
-    const postData = {
+    /*const postData = {
       title,
       content,
       tags: tag ? [tag] : [],
-    };
+    };*/
 
 
     try {
