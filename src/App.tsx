@@ -10,6 +10,7 @@ import Gradio from './components/gradio';
 import CommunityBoard from './pages/CommunityBoard';
 import Community from './components/community';
 import KakaoRedirectPage from './pages/KakaoLoginRedirect';
+import EducationVideo from './pages/educationvideo';
 
 function Home() {
   return (
@@ -35,6 +36,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/video" element={<EducationVideo/>}/>
           <Route path="/lawyer-verification" element={<LawyerImageUpload />} />
           <Route path="/community" element={<CommunityBoard />} />
           <Route path="/kakao/callback" element={<KakaoRedirectPage />} />

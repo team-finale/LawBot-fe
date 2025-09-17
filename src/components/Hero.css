@@ -4,17 +4,20 @@
   overflow: hidden;
   perspective: 1000px;
 }
-
 .hero-images {
-  position: relative;
+  display: flex;
+  justify-content: space-around; /* 좌우 균등 배치 */
+  align-items: center;            /* 수직 정렬 */
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .worker {
-  position: absolute;
-  width: clamp(120px, 18vw, 240px);
-  filter: drop-shadow(0 12px 18px rgba(0,0,0,0.18));
-  transform-style: preserve-3d;
-  will-change: transform, filter;
+  width: clamp(120px, 18vw, 220px);
+  height: auto;
+  object-fit: contain;
+  opacity: 1; /* 흐려지는 문제 방지 */
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.18));
 }
 
 .worker1 { left: 0%;  top: 10%;  z-index: 2; }
