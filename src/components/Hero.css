@@ -1,0 +1,22 @@
+/* Hero.css */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.hero-images {
+  position: relative;
+}
+
+.worker {
+  position: absolute;
+  width: clamp(120px, 18vw, 240px);
+  filter: drop-shadow(0 12px 18px rgba(0,0,0,0.18));
+  transform-style: preserve-3d;
+  will-change: transform, filter;
+}
+
+.worker1 { left: 0%;  top: 10%;  z-index: 2; }
+.worker2 { left: 35%; top: -4%;  z-index: 3; }
+.worker3 { right: 0%; top: 14%;  z-index: 1; }
