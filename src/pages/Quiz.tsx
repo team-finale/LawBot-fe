@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import axios from "axios";
@@ -12,13 +12,11 @@ type ResultResponse = { category_correct_count: Record<string, number> };
 // ✅ 카카오 로그인 시작 URL
 const KAKAO_START_URL = "https://2lawon.com/api/users/login/kakao";
 
-// ✅ axios 인스턴스
+// ✅ axios 인스턴스 (+ 토큰 자동 첨부, 401시 카카오 로그인)
 const api = axios.create({
   baseURL: "https://2lawon.com/api",
   headers: { "Content-Type": "application/json" },
 });
-
-// ✅ 토큰 자동 첨부 + 401 시 카카오 로그인으로 이동
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("access_token");
   if (token) {
@@ -27,41 +25,54 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
-
 api.interceptors.response.use(
-  (res) => res,
+  (r) => r,
   (err) => {
     if (err?.response?.status === 401) {
-      window.location.href = KAKAO_START_URL;
+      const rt = encodeURIComponent(window.location.pathname + window.location.search);
+      window.location.href = `${KAKAO_START_URL}?return_to=${rt}`;
       return;
     }
     return Promise.reject(err);
   }
 );
 
-const Quiz = () => {
-  const [authed, setAuthed] = useState<boolean>(false);
+export default function Quiz() {
+  // 인증 체크
+  const [authed, setAuthed] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      const rt = encodeURIComponent(window.location.pathname + window.location.search);
+      window.location.href = `${KAKAO_START_URL}?return_to=${rt}`;
+      return;
+    }
+    setAuthed(true);
+  }, []);
+
   const [quizzes, setQuizzes] = useState<QuizItem[]>([]);
   const [answers, setAnswers] = useState<Record<number, "O" | "X">>({});
-  const [submitResult, setSubmitResult] = useState<SubmitResponse | null>(null);
-  const [historyResult, setHistoryResult] = useState<ResultResponse | null>(null);
+  const [idx, setIdx] = useState(0); // ← 현재 문항 인덱스 (0-based)
 
   const [loadingFetch, setLoadingFetch] = useState(false);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // ✅ 마운트 시 로그인 여부 확인
-  useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      window.location.href = KAKAO_START_URL;
-      return;
-    }
-    setAuthed(true);
-  }, []);
+  const [submitResult, setSubmitResult] = useState<SubmitResponse | null>(null);
+  const [historyResult, setHistoryResult] = useState<ResultResponse | null>(null);
 
-  // ✅ 퀴즈 가져오기
+  const isBusy = loadingFetch || loadingSubmit || loadingHistory;
+
+  const progress = useMemo(() => {
+    if (!quizzes.length) return 0;
+    const answeredCount = quizzes.filter((q) => answers[q.id]).length;
+    return Math.round((answeredCount / quizzes.length) * 100);
+  }, [answers, quizzes]);
+
+  const current = quizzes[idx];
+
+  // 퀴즈 로드 (시작하기 버튼)
   const fetchQuizzes = async () => {
     if (loadingFetch) return;
     setLoadingFetch(true);
@@ -72,6 +83,7 @@ const Quiz = () => {
       setAnswers({});
       setSubmitResult(null);
       setHistoryResult(null);
+      setIdx(0);
     } catch (e: any) {
       setError(e?.response?.data?.detail ?? "퀴즈를 불러오지 못했습니다.");
     } finally {
@@ -79,18 +91,28 @@ const Quiz = () => {
     }
   };
 
-  // ✅ 정답 선택
-  const selectAnswer = (quizId: number, value: "O" | "X") => {
-    setAnswers((prev) => ({ ...prev, [quizId]: value }));
+  const choose = (qid: number, val: "O" | "X") => {
+    setAnswers((prev) => ({ ...prev, [qid]: val }));
   };
 
-  // ✅ 정답 제출
-  const handleSubmitAnswers = async () => {
+  const goPrev = () => {
+    if (idx > 0) setIdx((v) => v - 1);
+  };
+  const goNext = () => {
+    if (idx < quizzes.length - 1) setIdx((v) => v + 1);
+  };
+
+  // 최종 제출
+  const submitAll = async () => {
     if (loadingSubmit) return;
 
+    // 미답변 체크
     const unanswered = quizzes.filter((q) => !answers[q.id]);
     if (unanswered.length) {
       alert(`${unanswered.length}개 문항이 미답변입니다.`);
+      // 첫 미답변 위치로 이동
+      const firstMissing = quizzes.findIndex((q) => !answers[q.id]);
+      if (firstMissing >= 0) setIdx(firstMissing);
       return;
     }
 
@@ -100,12 +122,13 @@ const Quiz = () => {
       const payload = {
         answers: quizzes.map<AnswerItem>((q) => ({
           quiz_id: Number(q.id),
-          answer: String(answers[q.id] ?? "").trim().toUpperCase() === "O" ? "O" : "X",
+          answer: String(answers[q.id]).trim().toUpperCase() === "O" ? "O" : "X",
         })),
       };
-
       const { data } = await api.post<SubmitResponse>("/quiz/answer", payload);
       setSubmitResult(data);
+      // 결과가 나오면 맨 위로 스크롤(모바일 대비)
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (e: any) {
       setError(e?.response?.data?.detail ?? "정답 제출 실패");
     } finally {
@@ -113,7 +136,7 @@ const Quiz = () => {
     }
   };
 
-  // ✅ 누적 정답률 조회
+  // 누적 결과
   const fetchHistory = async () => {
     if (loadingHistory) return;
     setLoadingHistory(true);
@@ -127,8 +150,6 @@ const Quiz = () => {
       setLoadingHistory(false);
     }
   };
-
-  const isBusy = loadingFetch || loadingSubmit || loadingHistory;
 
   if (!authed) {
     return (
@@ -149,62 +170,84 @@ const Quiz = () => {
       <main className="page-content">
         <h2 className="quiz-title">노동법 퀴즈</h2>
 
-        <div className="quiz-actions">
-          <button onClick={fetchQuizzes} disabled={isBusy}>
-            {loadingFetch ? "불러오는 중..." : "퀴즈 풀러가기"}
-          </button>
-        </div>
-
-        {error && <div className="error-box">{error}</div>}
-
-        {quizzes.length > 0 && (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmitAnswers();
-            }}
-            className="quiz-form"
-          >
-            <ul>
-              {quizzes.map((quiz, idx) => (
-                <li key={quiz.id} className="quiz-item">
-                  <div className="quiz-category">
-                    #{idx + 1} · {quiz.category}
-                  </div>
-                  <div className="quiz-question">{quiz.question}</div>
-                  <div className="quiz-options">
-                    <button
-                      type="button"
-                      className={answers[quiz.id] === "O" ? "selected" : ""}
-                      onClick={() => selectAnswer(quiz.id, "O")}
-                      disabled={isBusy}
-                    >
-                      O
-                    </button>
-                    <button
-                      type="button"
-                      className={answers[quiz.id] === "X" ? "selected" : ""}
-                      onClick={() => selectAnswer(quiz.id, "X")}
-                      disabled={isBusy}
-                    >
-                      X
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            <div className="quiz-buttons">
-              <button type="submit" disabled={isBusy}>
-                {loadingSubmit ? "채점 중..." : "정답확인하기"}
-              </button>
-              <button type="button" onClick={fetchHistory} disabled={isBusy}>
-                {loadingHistory ? "조회 중..." : "퀴즈 정답률 조회하기"}
-              </button>
-            </div>
-          </form>
+        {/* 시작하기 / 기록보기 */}
+        {quizzes.length === 0 && (
+          <div className="quiz-actions">
+            <button onClick={fetchQuizzes} disabled={isBusy}>
+              {loadingFetch ? "불러오는 중..." : "시작하기"}
+            </button>
+            <button onClick={fetchHistory} disabled={isBusy}>
+              {loadingHistory ? "조회 중..." : "누적 결과 보기"}
+            </button>
+          </div>
         )}
 
+        {/* 에러 */}
+        {error && <div className="error-box">{error}</div>}
+
+        {/* 진행바 */}
+        {quizzes.length > 0 && (
+          <div className="progress-wrap">
+            <div className="progress-label">
+              {idx + 1} / {quizzes.length} ({progress}%)
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: `${progress}%` }} />
+            </div>
+          </div>
+        )}
+
+        {/* 한 문제씩 표시 */}
+        {current && (
+          <div className="quiz-one">
+            <div className="quiz-category">[{current.category}]</div>
+            <div className="quiz-question">{current.question}</div>
+
+            <div className="quiz-one-options">
+              <button
+                type="button"
+                className={answers[current.id] === "O" ? "selected" : ""}
+                onClick={() => choose(current.id, "O")}
+                disabled={isBusy}
+              >
+                O
+              </button>
+              <button
+                type="button"
+                className={answers[current.id] === "X" ? "selected" : ""}
+                onClick={() => choose(current.id, "X")}
+                disabled={isBusy}
+              >
+                X
+              </button>
+            </div>
+
+            {/* 네비게이션 */}
+            <div className="quiz-one-nav">
+              <button onClick={goPrev} disabled={idx === 0 || isBusy}>
+                이전
+              </button>
+
+              {idx < quizzes.length - 1 ? (
+                <button
+                  onClick={goNext}
+                  disabled={!answers[current.id] || isBusy}
+                >
+                  다음
+                </button>
+              ) : (
+                <button
+                  onClick={submitAll}
+                  disabled={!answers[current.id] || isBusy}
+                >
+                  {loadingSubmit ? "채점 중..." : "정답확인하기"}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* 제출 결과 */}
         {submitResult && (
           <div className="result-box">
             <h3>채점 결과</h3>
@@ -221,6 +264,7 @@ const Quiz = () => {
           </div>
         )}
 
+        {/* 누적 결과 */}
         {historyResult && (
           <div className="result-box">
             <h3>누적 결과</h3>
@@ -238,6 +282,4 @@ const Quiz = () => {
       <Footer />
     </div>
   );
-};
-
-export default Quiz;
+}

@@ -13,7 +13,7 @@ export default function Header() {
   return (
     <header className="header">
       <div className="header-container">
-        <div className="logo">이로운</div>
+        <a href="/" className="logo">이로운</a>
 
         <nav className="nav">
           {userName ? (

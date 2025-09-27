@@ -136,3 +136,25 @@ button:disabled {
   border-radius: 8px;
   margin-bottom: 1rem;
 }
+/* Quiz.css에 추가 */
+
+/* 진행바 */
+.progress-wrap { margin: 12px 0 16px; }
+.progress-label { font-size: 14px; color: #666; margin-bottom: 6px; }
+.progress-bar { width: 100%; height: 8px; background: #eee; border-radius: 999px; overflow: hidden; }
+.progress-fill { height: 100%; background: #111; }
+
+/* 단일 문항 레이아웃 */
+.quiz-one { border: 1px solid #e5e5e5; border-radius: 12px; padding: 16px; }
+.quiz-one .quiz-category { color: #666; font-size: 14px; margin-bottom: 6px; }
+.quiz-one .quiz-question { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+
+.quiz-one-options { display: flex; gap: 12px; margin-bottom: 16px; }
+.quiz-one-options button {
+  width: 64px; height: 44px; border: 1px solid #ddd; border-radius: 10px; background: #fafafa;
+}
+.quiz-one-options button.selected { border-color: #111; background: #111; color: #fff; }
+
+.quiz-one-nav { display: flex; justify-content: space-between; gap: 12px; }
+.quiz-one-nav button { flex: 1; height: 44px; border-radius: 10px; border: 1px solid #111; background: #111; color: #fff; }
+.quiz-one-nav button:disabled { opacity: .5; }
