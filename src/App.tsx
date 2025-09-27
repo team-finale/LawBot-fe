@@ -11,6 +11,7 @@ import CommunityBoard from './pages/CommunityBoard';
 import Community from './components/community';
 import KakaoRedirectPage from './pages/KakaoLoginRedirect';
 import EducationVideo from './pages/Educationvideo';
+import Quiz from './pages/Quiz';
 
 function Home() {
   return (
@@ -36,6 +37,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/quiz" element={<Quiz/>}/>
           <Route path="/video" element={<EducationVideo/>}/>
           <Route path="/lawyer-verification" element={<LawyerImageUpload />} />
           <Route path="/community" element={<CommunityBoard />} />

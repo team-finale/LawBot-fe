@@ -1,0 +1,138 @@
+/* 전체 레이아웃 */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header-fixed {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* 메인 콘텐츠 */
+.page-content {
+  flex: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* 제목 */
+.quiz-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* 버튼 공통 스타일 */
+button {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background: #f5f5f5;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 퀴즈 불러오기 */
+.quiz-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+/* 퀴즈 리스트 */
+.quiz-form ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quiz-item {
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.quiz-category {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.4rem;
+}
+
+.quiz-question {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.8rem;
+}
+
+/* O/X 버튼 */
+.quiz-options {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.quiz-options button {
+  flex: 1;
+  font-size: 1.1rem;
+  padding: 0.8rem 0;
+}
+
+.quiz-options button.selected {
+  border: 2px solid #000;
+  background: #fafafa;
+  font-weight: bold;
+}
+
+/* 제출/조회 버튼 */
+.quiz-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+/* 결과 박스 */
+.result-box {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.result-box h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1.1rem;
+}
+
+.result-box ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+/* 에러 메시지 */
+.error-box {
+  color: #d32f2f;
+  background: #fce4e4;
+  border: 1px solid #f5c2c2;
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}

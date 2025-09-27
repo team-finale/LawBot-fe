@@ -11,6 +11,9 @@ const EducationVideo = () => {
     <div className="page-wrapper">
       <div className="header-fixed">
         <Header />
+
+
+        
       </div>
     <Footer />
     </div>

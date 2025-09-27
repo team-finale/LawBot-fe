@@ -58,7 +58,7 @@ export default function Hero() {
         </motion.h1>
         <p className="hero-subtitle">
           부당해고, 임금 체불, 산업재해<br />
-          이로운과 함께 재밌고 쉽게 학습해봐요!
+          이로운과 함께 쉽고 재밌게 학습해봐요!
         </p>
         <KakaoLoginButton />
       </div>
