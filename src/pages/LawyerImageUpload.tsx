@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import "./quiz.css";
+import "./Quiz.css";
 
 import { useMemo, useState } from "react";
 import axios from "axios";
