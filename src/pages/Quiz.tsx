@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // 라우터 유지 (필요시 사용)
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import axios from "axios";
@@ -9,13 +10,40 @@ type AnswerItem = { quiz_id: number; answer: "O" | "X" };
 type SubmitResponse = { total_correct: number; category_correct_count: Record<string, number> };
 type ResultResponse = { category_correct_count: Record<string, number> };
 
-// ✅ 공통 axios 인스턴스 (헤더 고정)
+// ✅ 카카오 로그인 시작 URL (백엔드)
+const KAKAO_START_URL = "https://2lawon.com/api/users/login/kakao";
+
+// ✅ 공통 axios 인스턴스
 const api = axios.create({
   baseURL: "https://2lawon.com/api",
   headers: { "Content-Type": "application/json" },
 });
 
+// ✅ 모든 요청에 Bearer 토큰 자동 첨부 + 401 시 카카오 로그인으로 이동
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("access_token");
+  if (token) {
+    config.headers = config.headers ?? {};
+    (config.headers as any).Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err?.response?.status === 401) {
+      // 토큰 없음/만료 → 카카오 로그인 시작
+      window.location.href = KAKAO_START_URL;
+      return;
+    }
+    return Promise.reject(err);
+  }
+);
+
 const Quiz = () => {
+  const navigate = useNavigate();
+  const [authed, setAuthed] = useState<boolean>(false);
   const [quizzes, setQuizzes] = useState<QuizItem[]>([]);
   const [answers, setAnswers] = useState<Record<number, "O" | "X">>({});
   const [submitResult, setSubmitResult] = useState<SubmitResponse | null>(null);
@@ -26,6 +54,16 @@ const Quiz = () => {
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // ✅ 마운트 시 로그인 여부 확인: 없으면 바로 카카오 로그인으로 이동
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      window.location.href = KAKAO_START_URL;
+      return;
+    }
+    setAuthed(true);
+  }, []);
+
   // ✅ 퀴즈 가져오기
   const fetchQuizzes = async () => {
     if (loadingFetch) return;
@@ -34,7 +72,6 @@ const Quiz = () => {
     try {
       const { data } = await api.get<QuizItem[]>("/quiz");
       setQuizzes(data);
-      // 새로 시작하므로 상태 초기화
       setAnswers({});
       setSubmitResult(null);
       setHistoryResult(null);
@@ -54,7 +91,6 @@ const Quiz = () => {
   const handleSubmitAnswers = async () => {
     if (loadingSubmit) return;
 
-    // 모든 문항 답했는지 체크
     const unanswered = quizzes.filter((q) => !answers[q.id]);
     if (unanswered.length) {
       alert(`${unanswered.length}개 문항이 미답변입니다.`);
@@ -64,22 +100,15 @@ const Quiz = () => {
     setLoadingSubmit(true);
     setError(null);
     try {
-      // 형식/타입/대소문자 보정 (백엔드 스키마 호환)
       const payload = {
         answers: quizzes.map<AnswerItem>((q) => ({
           quiz_id: Number(q.id),
-          answer:
-            String(answers[q.id] ?? "")
-              .trim()
-              .toUpperCase() === "O"
-              ? "O"
-              : "X",
+          answer: String(answers[q.id] ?? "").trim().toUpperCase() === "O" ? "O" : "X",
         })),
       };
 
       const { data } = await api.post<SubmitResponse>("/quiz/answer", payload);
       setSubmitResult(data);
-      // 제출 후 누적 결과는 초기화하지 않음(사용자 선택)
     } catch (e: any) {
       setError(e?.response?.data?.detail ?? "정답 제출 실패");
     } finally {
@@ -102,8 +131,18 @@ const Quiz = () => {
     }
   };
 
-  // ✅ 전체 로딩 상태 (버튼 비활성화용)
   const isBusy = loadingFetch || loadingSubmit || loadingHistory;
+
+  // 🔒 로그인 체크 중 or 미인증(리다이렉트 시도) 상태
+  if (!authed) {
+    return (
+      <div className="page-wrapper">
+        <main className="page-content">
+          <p style={{ textAlign: "center", marginTop: 100 }}>접근 권한 확인 중…</p>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="page-wrapper">
@@ -114,17 +153,14 @@ const Quiz = () => {
       <main className="page-content">
         <h2 className="quiz-title">노동법 퀴즈</h2>
 
-        {/* 퀴즈 불러오기 버튼 */}
         <div className="quiz-actions">
           <button onClick={fetchQuizzes} disabled={isBusy}>
             {loadingFetch ? "불러오는 중..." : "퀴즈 풀러가기"}
           </button>
         </div>
 
-        {/* 에러 메시지 */}
         {error && <div className="error-box">{error}</div>}
 
-        {/* 퀴즈 표시 */}
         {quizzes.length > 0 && (
           <form
             onSubmit={(e) => {
@@ -162,7 +198,6 @@ const Quiz = () => {
               ))}
             </ul>
 
-            {/* 두 개의 버튼 */}
             <div className="quiz-buttons">
               <button type="submit" disabled={isBusy}>
                 {loadingSubmit ? "채점 중..." : "정답확인하기"}
@@ -174,7 +209,6 @@ const Quiz = () => {
           </form>
         )}
 
-        {/* 정답 제출 결과 */}
         {submitResult && (
           <div className="result-box">
             <h3>채점 결과</h3>
@@ -191,7 +225,6 @@ const Quiz = () => {
           </div>
         )}
 
-        {/* 정답률 조회 결과 */}
         {historyResult && (
           <div className="result-box">
             <h3>누적 결과</h3>
