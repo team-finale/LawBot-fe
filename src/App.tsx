@@ -10,7 +10,7 @@ import Gradio from './components/gradio';
 import CommunityBoard from './pages/CommunityBoard';
 import Community from './components/community';
 import KakaoRedirectPage from './pages/KakaoLoginRedirect';
-import EducationVideo from './pages/educationvideo';
+import EducationVideo from './pages/Educationvideo';
 
 function Home() {
   return (
