@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // 라우터 유지 (필요시 사용)
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import axios from "axios";
@@ -10,16 +9,16 @@ type AnswerItem = { quiz_id: number; answer: "O" | "X" };
 type SubmitResponse = { total_correct: number; category_correct_count: Record<string, number> };
 type ResultResponse = { category_correct_count: Record<string, number> };
 
-// ✅ 카카오 로그인 시작 URL (백엔드)
+// ✅ 카카오 로그인 시작 URL
 const KAKAO_START_URL = "https://2lawon.com/api/users/login/kakao";
 
-// ✅ 공통 axios 인스턴스
+// ✅ axios 인스턴스
 const api = axios.create({
   baseURL: "https://2lawon.com/api",
   headers: { "Content-Type": "application/json" },
 });
 
-// ✅ 모든 요청에 Bearer 토큰 자동 첨부 + 401 시 카카오 로그인으로 이동
+// ✅ 토큰 자동 첨부 + 401 시 카카오 로그인으로 이동
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("access_token");
   if (token) {
@@ -33,7 +32,6 @@ api.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err?.response?.status === 401) {
-      // 토큰 없음/만료 → 카카오 로그인 시작
       window.location.href = KAKAO_START_URL;
       return;
     }
@@ -42,7 +40,6 @@ api.interceptors.response.use(
 );
 
 const Quiz = () => {
-  const navigate = useNavigate();
   const [authed, setAuthed] = useState<boolean>(false);
   const [quizzes, setQuizzes] = useState<QuizItem[]>([]);
   const [answers, setAnswers] = useState<Record<number, "O" | "X">>({});
@@ -54,7 +51,7 @@ const Quiz = () => {
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // ✅ 마운트 시 로그인 여부 확인: 없으면 바로 카카오 로그인으로 이동
+  // ✅ 마운트 시 로그인 여부 확인
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     if (!token) {
@@ -133,7 +130,6 @@ const Quiz = () => {
 
   const isBusy = loadingFetch || loadingSubmit || loadingHistory;
 
-  // 🔒 로그인 체크 중 or 미인증(리다이렉트 시도) 상태
   if (!authed) {
     return (
       <div className="page-wrapper">
