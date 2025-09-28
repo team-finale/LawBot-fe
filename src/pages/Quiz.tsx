@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import axios from "axios";
 import "./Quiz.css";
+import ResultCharts from "./ResultCharts";
 
 type QuizItem = { id: number; question: string; category: string };
 type AnswerItem = { quiz_id: number; answer: "O" | "X" };
@@ -264,18 +265,19 @@ export default function Quiz() {
           </div>
         )}
 
-        {/* 누적 결과 */}
-        {historyResult && (
-          <div className="result-box">
-            <h3>누적 결과</h3>
-            <ul>
-              {Object.entries(historyResult.category_correct_count).map(([cat, cnt]) => (
-                <li key={cat}>
-                  {cat}: {cnt}
-                </li>
-              ))}
-            </ul>
+        {/* 누적 결과 - 인라인 차트 */}
+        {loadingHistory && (
+          <div className="result-box animate-pulse">
+            <div className="h-4 w-32 bg-gray-200 rounded mb-3" />
+            <div className="h-48 w-full bg-gray-100 rounded mb-3" />
+            <div className="h-48 w-full bg-gray-100 rounded" />
           </div>
+        )}
+        {historyResult && !loadingHistory && (
+          <ResultCharts
+            title="누적 결과(카테고리 분포)"
+            categoryCorrect={historyResult.category_correct_count}
+          />
         )}
       </main>
 
