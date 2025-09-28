@@ -1,4 +1,4 @@
-/*import { useNavigate } from "react-router-dom";*/
+
 import "./gradio.css"
 const Gradio = () => {
   /*const navigate = useNavigate();*/

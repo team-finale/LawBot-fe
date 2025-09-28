@@ -34,9 +34,8 @@ export default function Header() {
             <a href="https://2lawon.com/api/users/login/kakao">카카오 로그인</a>
           )}
           <a href="/video">교육 시작하기</a>
-          <a href="/quiz">퀴즈 풀기</a>
+          <a href="/quiz/info">퀴즈 풀기</a>
           <a href="/gradio">상담 시작하기</a>
-
           <a href="/community">커뮤니티</a>
           <div className="lang">
             <span>한국어</span>
