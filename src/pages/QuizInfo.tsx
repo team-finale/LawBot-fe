@@ -118,7 +118,7 @@ export default function QuizPage() {
                       <span>· {q.estMin}분</span>
                     </div>
                     <div className="card-actions">
-                      <button className="btn-secondary" onClick={() => navigate("/quiz")}>바로 풀기</button>
+                      <button className="btn-primary" onClick={() => navigate("/quiz")}>바로 풀기</button>
                       <button className="btn-soft" onClick={() => openInfo(q)}>자세히</button>
                     </div>
                   </article>
