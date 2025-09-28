@@ -1,4 +1,4 @@
-// src/pages/ResultCharts.tsx (문제난 파일 전체 예시 중 PieChart 부분만 교체해도 됨)
+// src/pages/ResultCharts.tsx
 import { useMemo } from "react";
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
@@ -6,21 +6,22 @@ import {
 } from "recharts";
 
 type Props = {
+
   categoryCorrect: Record<string, number>;
-  title?: string;
+  title?: string
 };
 
-const COLORS = ["#111827","#4B5563","#9CA3AF","#D1D5DB","#6B7280","#374151","#9CA3AF","#A3A3A3"];
+const COLORS = ["#111827","#4B5563","#9CA3AF","#D1D5DB","#6B7280","#374151","#A3A3A3","#525252"];
 
-export default function ResultCharts({ categoryCorrect, title="누적 결과" }: Props) {
+export default function ResultCharts({ categoryCorrect, title = "누적 결과" }: Props) {
   const data = useMemo(() => {
     const entries = Object.entries(categoryCorrect || {});
     return entries
       .map(([name, value]) => ({ name, value }))
-      .sort((a,b) => b.value - a.value);
+      .sort((a, b) => b.value - a.value);
   }, [categoryCorrect]);
 
-  const total = useMemo(() => data.reduce((s,d)=>s+d.value, 0), [data]);
+  const total = useMemo(() => data.reduce((s, d) => s + d.value, 0), [data]);
 
   if (!data.length) {
     return <div className="result-box">표시할 데이터가 없습니다.</div>;
@@ -41,12 +42,12 @@ export default function ResultCharts({ categoryCorrect, title="누적 결과" }:
             <XAxis dataKey="name" tick={{ fontSize: 12 }} />
             <YAxis allowDecimals={false} />
             <Tooltip />
-            <Bar dataKey="value" radius={[6,6,0,0]} />
+            <Bar dataKey="value" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
 
-      {/* 도넛 차트 — percent 대신 value/total로 직접 계산 */}
+      {/* 도넛 차트 — percent(unknown) 대신 value/total로 직접 계산 */}
       <div style={{ width: "100%", height: 240, marginTop: 16 }}>
         <ResponsiveContainer>
           <PieChart>
@@ -59,13 +60,14 @@ export default function ResultCharts({ categoryCorrect, title="누적 결과" }:
               innerRadius={60}
               outerRadius={90}
               paddingAngle={2}
-              // 👇 여기가 핵심: TS 에러 없이 안전하게 라벨 문자열 생성
+              // ✅ 여기서 percent를 쓰지 않습니다. (TS 에러 회피)
               label={(d: any) => {
                 const name = String(d?.name ?? "");
                 const value = Number(d?.value ?? 0);
                 const pct = total ? Math.round((value / total) * 100) : 0;
                 return `${name} ${pct}%`;
               }}
+              labelLine={false}
             >
               {data.map((_, i) => (
                 <Cell key={i} fill={COLORS[i % COLORS.length]} />
