@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import axios from "axios";
@@ -18,21 +18,24 @@ const api = axios.create({
   baseURL: "https://2lawon.com/api",
   headers: { "Content-Type": "application/json" },
 });
+
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("access_token");
   if (token) {
     config.headers = config.headers ?? {};
-    (config.headers as any).Authorization = `Bearer ${token}`;
+    (config.headers as any).Authorization = `Bearer ${token}`; // ← 백틱
   }
   return config;
 });
+
 api.interceptors.response.use(
   (r) => r,
   (err) => {
     if (err?.response?.status === 401) {
       const rt = encodeURIComponent(window.location.pathname + window.location.search);
-      window.location.href = `${KAKAO_START_URL}?return_to=${rt}`;
-      return;
+      window.location.href = `${KAKAO_START_URL}?return_to=${rt}`; // ← 백틱
+      // 요청 체인 중단
+      return Promise.resolve(null as any);
     }
     return Promise.reject(err);
   }
@@ -41,11 +44,12 @@ api.interceptors.response.use(
 export default function Quiz() {
   // 인증 체크
   const [authed, setAuthed] = useState(false);
+
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     if (!token) {
       const rt = encodeURIComponent(window.location.pathname + window.location.search);
-      window.location.href = `${KAKAO_START_URL}?return_to=${rt}`;
+      window.location.href = `${KAKAO_START_URL}?return_to=${rt}`; // ← 백틱
       return;
     }
     setAuthed(true);
@@ -72,37 +76,6 @@ export default function Quiz() {
   }, [answers, quizzes]);
 
   const current = quizzes[idx];
-
-  // ====== 🔒 질문 높이 고정용 상태/참조/측정 ======
-  const measureRef = useRef<HTMLDivElement | null>(null);
-  const [questionHeight, setQuestionHeight] = useState<number | null>(null);
-
-  // 창 크기 변경 시 재측정(반응형 대응)
-  const [winW, setWinW] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 0);
-  useEffect(() => {
-    const onResize = () => setWinW(window.innerWidth);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  // 퀴즈 목록이 바뀌거나 창 너비가 바뀔 때 최대 질문 높이 측정
-  useLayoutEffect(() => {
-    if (!quizzes.length) {
-      setQuestionHeight(null);
-      return;
-    }
-    const el = measureRef.current;
-    if (!el) return;
-
-    let maxH = 0;
-    for (const q of quizzes) {
-      el.textContent = q.question;
-      const h = el.getBoundingClientRect().height;
-      if (h > maxH) maxH = h;
-    }
-    setQuestionHeight(Math.ceil(maxH));
-  }, [quizzes, winW]);
-  // =================================================
 
   // 퀴즈 로드 (시작하기 버튼)
   const fetchQuizzes = async () => {
@@ -202,132 +175,6 @@ export default function Quiz() {
       <main className="page-content">
         <h2 className="quiz-title">노동법 퀴즈</h2>
 
-        {/* 숨김 측정 요소: 레이아웃엔 영향 없음(질문 높이 측정용) */}
-        <div
-          ref={measureRef}
-          className="quiz-question"
-          aria-hidden
-          style={{
-            position: "absolute",
-            visibility: "hidden",
-            pointerEvents: "none",
-            height: "auto",
-            inset: 0,
-            overflow: "visible",
-          }}
-        />
-
         {/* 시작하기 / 기록보기 */}
         {quizzes.length === 0 && (
-          <div className="quiz-actions">
-            <button onClick={fetchQuizzes} disabled={isBusy}>
-              {loadingFetch ? "불러오는 중..." : "시작하기"}
-            </button>
-            <button onClick={fetchHistory} disabled={isBusy}>
-              {loadingHistory ? "조회 중..." : "누적 결과 보기"}
-            </button>
-          </div>
-        )}
-
-        {/* 에러 */}
-        {error && <div className="error-box">{error}</div>}
-
-        {/* 진행바 */}
-        {quizzes.length > 0 && (
-          <div className="progress-wrap">
-            <div className="progress-label">
-              {idx + 1} / {quizzes.length} ({progress}%)
-            </div>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: `${progress}%` }} />
-            </div>
-          </div>
-        )}
-
-        {/* 한 문제씩 표시 */}
-        {current && (
-          <div className="quiz-one">
-            <div className="quiz-category">[{current.category}]</div>
-
-            <div
-              className="quiz-question"
-              style={{ height: questionHeight ?? "auto", overflowY: "auto" }}
-            >
-              {current.question}
-            </div>
-
-            <div className="quiz-one-options">
-              <button
-                type="button"
-                className={answers[current.id] === "O" ? "selected" : ""}
-                onClick={() => choose(current.id, "O")}
-                disabled={isBusy}
-              >
-                O
-              </button>
-              <button
-                type="button"
-                className={answers[current.id] === "X" ? "selected" : ""}
-                onClick={() => choose(current.id, "X")}
-                disabled={isBusy}
-              >
-                X
-              </button>
-            </div>
-
-            {/* 네비게이션 */}
-            <div className="quiz-one-nav">
-              <button onClick={goPrev} disabled={idx === 0 || isBusy}>
-                이전
-              </button>
-
-              {idx < quizzes.length - 1 ? (
-                <button onClick={goNext} disabled={!answers[current.id] || isBusy}>
-                  다음
-                </button>
-              ) : (
-                <button onClick={submitAll} disabled={!answers[current.id] || isBusy}>
-                  {loadingSubmit ? "채점 중..." : "정답확인하기"}
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* 제출 결과 */}
-        {submitResult && (
-          <div className="result-box">
-            <h3>채점 결과</h3>
-            <p>
-              맞춘 개수: {submitResult.total_correct} / {quizzes.length}
-            </p>
-            <ul>
-              {Object.entries(submitResult.category_correct_count).map(([cat, cnt]) => (
-                <li key={cat}>
-                  {cat}: {cnt}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* 누적 결과 - 인라인 차트 */}
-        {loadingHistory && (
-          <div className="result-box animate-pulse">
-            <div className="h-4 w-32 bg-gray-200 rounded mb-3" />
-            <div className="h-48 w-full bg-gray-100 rounded mb-3" />
-            <div className="h-48 w-full bg-gray-100 rounded" />
-          </div>
-        )}
-        {historyResult && !loadingHistory && (
-          <ResultCharts
-            title="누적 결과(카테고리 분포에 따라)  "
-            categoryCorrect={historyResult.category_correct_count}
-          />
-        )}
-      </main>
-
-      <Footer />
-    </div>
-  );
-}
+          <div className="quiz-actions
