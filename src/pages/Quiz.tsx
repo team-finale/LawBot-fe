@@ -177,4 +177,109 @@ export default function Quiz() {
 
         {/* 시작하기 / 기록보기 */}
         {quizzes.length === 0 && (
-          <div className="quiz-actions
+          <div className="quiz-actions">
+            <button onClick={fetchQuizzes} disabled={isBusy}>
+              {loadingFetch ? "불러오는 중..." : "시작하기"}
+            </button>
+            <button onClick={fetchHistory} disabled={isBusy}>
+              {loadingHistory ? "조회 중..." : "누적 결과 보기"}
+            </button>
+          </div>
+        )}
+
+        {/* 에러 */}
+        {error && <div className="error-box">{error}</div>}
+
+        {/* 진행바 */}
+        {quizzes.length > 0 && (
+          <div className="progress-wrap">
+            <div className="progress-label">
+              {idx + 1} / {quizzes.length} ({progress}%)
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: `${progress}%` }} /> {/* ← 백틱 */}
+            </div>
+          </div>
+        )}
+
+        {/* 한 문제씩 표시 */}
+        {current && (
+          <div className="quiz-one">
+            <div className="quiz-category">[{current.category}]</div>
+            <div className="quiz-question">{current.question}</div>
+
+            <div className="quiz-one-options">
+              <button
+                type="button"
+                className={answers[current.id] === "O" ? "selected" : ""}
+                onClick={() => choose(current.id, "O")}
+                disabled={isBusy}
+              >
+                O
+              </button>
+              <button
+                type="button"
+                className={answers[current.id] === "X" ? "selected" : ""}
+                onClick={() => choose(current.id, "X")}
+                disabled={isBusy}
+              >
+                X
+              </button>
+            </div>
+
+            {/* 네비게이션 */}
+            <div className="quiz-one-nav">
+              <button onClick={goPrev} disabled={idx === 0 || isBusy}>
+                이전
+              </button>
+              {idx < quizzes.length - 1 ? (
+                <button onClick={goNext} disabled={!answers[current.id] || isBusy}>
+                  다음
+                </button>
+              ) : (
+                <button onClick={submitAll} disabled={!answers[current.id] || isBusy}>
+                  {loadingSubmit ? "채점 중..." : "정답확인하기"}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* 제출 결과 */}
+        {submitResult && (
+          <div className="result-box">
+            <h3>채점 결과</h3>
+            <p>
+              맞춘 개수: {submitResult.total_correct} / {quizzes.length}
+            </p>
+            <ul>
+              {Object.entries(submitResult.category_correct_count).map(([cat, cnt]) => (
+                <li key={cat}>
+                  {cat}: {cnt}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* 누적 결과 - 인라인 차트 */}
+        {loadingHistory && (
+          <div className="result-box animate-pulse">
+            <div className="h-4 w-32 bg-gray-200 rounded mb-3" />
+            <div className="h-48 w-full bg-gray-100 rounded mb-3" />
+            <div className="h-48 w-full bg-gray-100 rounded" />
+          </div>
+        )}
+
+        {historyResult && !loadingHistory && (
+          <ResultCharts
+            title="누적 결과(카테고리 분포에 따라) "
+            categoryCorrect={historyResult.category_correct_count}
+          />
+        )}
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
