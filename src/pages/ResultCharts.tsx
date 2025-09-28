@@ -1,4 +1,4 @@
-// src/components/ResultCharts.tsx
+// src/pages/ResultCharts.tsx (문제난 파일 전체 예시 중 PieChart 부분만 교체해도 됨)
 import { useMemo } from "react";
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
@@ -33,11 +33,6 @@ export default function ResultCharts({ categoryCorrect, title="누적 결과" }:
         <span className="text-sm text-gray-500">총 정답 수: {total}</span>
       </div>
 
-      {/* Top 카테고리 배지 */}
-      <div className="mb-3 text-sm">
-        <strong>TOP</strong>: {data[0].name} (<b>{data[0].value}</b>)
-      </div>
-
       {/* 막대그래프 */}
       <div style={{ width: "100%", height: 240 }}>
         <ResponsiveContainer>
@@ -51,7 +46,7 @@ export default function ResultCharts({ categoryCorrect, title="누적 결과" }:
         </ResponsiveContainer>
       </div>
 
-      {/* 도넛 차트 */}
+      {/* 도넛 차트 — percent 대신 value/total로 직접 계산 */}
       <div style={{ width: "100%", height: 240, marginTop: 16 }}>
         <ResponsiveContainer>
           <PieChart>
@@ -64,7 +59,13 @@ export default function ResultCharts({ categoryCorrect, title="누적 결과" }:
               innerRadius={60}
               outerRadius={90}
               paddingAngle={2}
-              label={({name, percent}) => `${name} ${(percent*100).toFixed(0)}%`}
+              // 👇 여기가 핵심: TS 에러 없이 안전하게 라벨 문자열 생성
+              label={(d: any) => {
+                const name = String(d?.name ?? "");
+                const value = Number(d?.value ?? 0);
+                const pct = total ? Math.round((value / total) * 100) : 0;
+                return `${name} ${pct}%`;
+              }}
             >
               {data.map((_, i) => (
                 <Cell key={i} fill={COLORS[i % COLORS.length]} />
