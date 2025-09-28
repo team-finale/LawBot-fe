@@ -36,16 +36,21 @@ export default function ResultCharts({ categoryCorrect, title = "누적 결과" 
 
       {/* 막대그래프 */}
       <div style={{ width: "100%", height: 240 }}>
-        <ResponsiveContainer>
-          <BarChart data={data} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-            <YAxis allowDecimals={false} />
-            <Tooltip />
-            <Bar dataKey="value" radius={[6, 6, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+  <ResponsiveContainer>
+    <BarChart data={data} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+      <YAxis allowDecimals={false} />
+      <Tooltip />
+      <Bar
+        dataKey="value"
+        radius={[6, 6, 0, 0]}
+        fill="#9CA3AF"   // 기본 막대 색 (회색, Tailwind gray-400)
+        activeBar={{ fill: "#3e2e25" }} // 마우스 올렸을 때 색
+      />
+    </BarChart>
+  </ResponsiveContainer>
+</div>
 
       {/* 도넛 차트 — percent(unknown) 대신 value/total로 직접 계산 */}
       <div style={{ width: "100%", height: 240, marginTop: 16 }}>
