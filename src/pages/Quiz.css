@@ -18,6 +18,12 @@
   margin: 0 auto;
   padding: 2rem 1rem;
 }
+.quiz-question {
+  line-height: 1.5;
+  padding: 8px 0;
+  overflow-y: auto; /* 길면 내부 스크롤 */
+}
+
 
 /* 제목 */
 .quiz-title {

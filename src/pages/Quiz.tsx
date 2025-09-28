@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import axios from "axios";
@@ -72,6 +72,37 @@ export default function Quiz() {
   }, [answers, quizzes]);
 
   const current = quizzes[idx];
+
+  // ====== 🔒 질문 높이 고정용 상태/참조/측정 ======
+  const measureRef = useRef<HTMLDivElement | null>(null);
+  const [questionHeight, setQuestionHeight] = useState<number | null>(null);
+
+  // 창 크기 변경 시 재측정(반응형 대응)
+  const [winW, setWinW] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 0);
+  useEffect(() => {
+    const onResize = () => setWinW(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  // 퀴즈 목록이 바뀌거나 창 너비가 바뀔 때 최대 질문 높이 측정
+  useLayoutEffect(() => {
+    if (!quizzes.length) {
+      setQuestionHeight(null);
+      return;
+    }
+    const el = measureRef.current;
+    if (!el) return;
+
+    let maxH = 0;
+    for (const q of quizzes) {
+      el.textContent = q.question;
+      const h = el.getBoundingClientRect().height;
+      if (h > maxH) maxH = h;
+    }
+    setQuestionHeight(Math.ceil(maxH));
+  }, [quizzes, winW]);
+  // =================================================
 
   // 퀴즈 로드 (시작하기 버튼)
   const fetchQuizzes = async () => {
@@ -171,6 +202,21 @@ export default function Quiz() {
       <main className="page-content">
         <h2 className="quiz-title">노동법 퀴즈</h2>
 
+        {/* 숨김 측정 요소: 레이아웃엔 영향 없음(질문 높이 측정용) */}
+        <div
+          ref={measureRef}
+          className="quiz-question"
+          aria-hidden
+          style={{
+            position: "absolute",
+            visibility: "hidden",
+            pointerEvents: "none",
+            height: "auto",
+            inset: 0,
+            overflow: "visible",
+          }}
+        />
+
         {/* 시작하기 / 기록보기 */}
         {quizzes.length === 0 && (
           <div className="quiz-actions">
@@ -202,7 +248,13 @@ export default function Quiz() {
         {current && (
           <div className="quiz-one">
             <div className="quiz-category">[{current.category}]</div>
-            <div className="quiz-question">{current.question}</div>
+
+            <div
+              className="quiz-question"
+              style={{ height: questionHeight ?? "auto", overflowY: "auto" }}
+            >
+              {current.question}
+            </div>
 
             <div className="quiz-one-options">
               <button
@@ -230,17 +282,11 @@ export default function Quiz() {
               </button>
 
               {idx < quizzes.length - 1 ? (
-                <button
-                  onClick={goNext}
-                  disabled={!answers[current.id] || isBusy}
-                >
+                <button onClick={goNext} disabled={!answers[current.id] || isBusy}>
                   다음
                 </button>
               ) : (
-                <button
-                  onClick={submitAll}
-                  disabled={!answers[current.id] || isBusy}
-                >
+                <button onClick={submitAll} disabled={!answers[current.id] || isBusy}>
                   {loadingSubmit ? "채점 중..." : "정답확인하기"}
                 </button>
               )}
