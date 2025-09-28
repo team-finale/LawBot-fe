@@ -36,7 +36,7 @@ export default function Header() {
           <a href="/video">교육 시작하기</a>
           <a href="/quiz">퀴즈 풀기</a>
           <a href="/gradio">상담 시작하기</a>
-          <a href="/lawyer-verification">노무사 인증</a>
+
           <a href="/community">커뮤니티</a>
           <div className="lang">
             <span>한국어</span>
