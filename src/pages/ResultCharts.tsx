@@ -31,7 +31,7 @@ export default function ResultCharts({ categoryCorrect, title = "누적 결과" 
     <div className="result-box">
       <div className="flex items-baseline justify-between gap-3 mb-2">
         <h3 className="text-lg font-semibold">{title}</h3>
-        <span className="text-sm text-gray-500">총 정답 수: {total}</span>
+        <span className="text-sm text-gray-500">맞춘 문제 수: {total}</span>
       </div>
 
       {/* 막대그래프 */}

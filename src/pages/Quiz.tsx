@@ -275,7 +275,7 @@ export default function Quiz() {
         )}
         {historyResult && !loadingHistory && (
           <ResultCharts
-            title="누적 결과(카테고리 분포)"
+            title="누적 결과(카테고리 분포에 따라)  "
             categoryCorrect={historyResult.category_correct_count}
           />
         )}
