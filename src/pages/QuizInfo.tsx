@@ -75,7 +75,7 @@ export default function QuizPage() {
                   <a href="#catalog" className="btn-ghost">퀴즈 모아보기</a>
                 </div>
                 <div className="hero-stats">
-                  <div><b>3,240</b><span>명이 학습 중</span></div>
+                  <div><b>3,240</b><span>명이 학습 중 (희망사항)</span></div>
                   <div><b>127</b><span>개의 퀴즈</span></div>
                   <div><b>92%</b><span>만족도</span></div>
                 </div>
