@@ -7,10 +7,10 @@ const Lawyer = () => {
 
   return (
     <section id="lawyers" className="lawyers-section">
-      <h1 className="lawyers-title">이로운과 함께해요</h1>
-      <p className="lawyers-subtitle">노무사 인증을 통해 전문가 서비스를 시작하세요.</p>
-      <button onClick={() => navigate("/lawyer-verification")} className="lawyers-button">
-        노무사 인증
+      <h1 className="lawyers-title">이로운과 학습해요</h1>
+      <p className="lawyers-subtitle">퀴즈를 통해 학습을 시작해보세요</p>
+      <button onClick={() => navigate("/quiz/info")} className="lawyers-button">
+        퀴즈풀기
       </button>
     </section>
   );

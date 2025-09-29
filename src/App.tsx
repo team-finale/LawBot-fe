@@ -23,8 +23,8 @@ function Home() {
         <Hero />
         <Features />
         <Kakao />
-        <Gradio />
         <Lawyer />
+        <Gradio />
         <Community />
       </main>
       <Footer />
