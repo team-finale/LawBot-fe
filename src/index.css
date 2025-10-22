@@ -169,3 +169,11 @@ h1 { font-size: clamp(24px, 6vw, 32px); line-height: 1.2; }
 @media (max-width: 768px) {
   .main { padding-left: 16px; padding-right: 16px; }
 }
+
+@media (min-width: 1024px) {
+  .section,
+  .feature-section {
+    padding-left: 10vw;
+    padding-right: 10vw;
+  }
+}
