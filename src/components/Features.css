@@ -1,80 +1,72 @@
-/* ==== Features.css (drop-in 교체본) ==== */
-
-/* 섹션 컨테이너: 배경 + 수직 간격 (반응형) */
+/* 섹션 컨테이너 */
 .alt-sections {
   background-color: #f9fafa;
-  overflow-x: hidden;
-  /* 상하패딩, 섹션 간격 */
-  padding: clamp(40px, 8vw, 80px) clamp(16px, 4vw, 20px);
+  /* 상하, 좌우 패딩을 기기 폭에 따라 반응형으로 */
+  padding: clamp(56px, 8vw, 100px) clamp(16px, 5vw, 40px);
   display: flex;
   flex-direction: column;
-  gap: clamp(36px, 10vw, 100px);
+  gap: clamp(48px, 8vw, 100px);
 }
 
-/* 행 레이아웃: 모바일 1열 → lg 이상 2열 */
-.alt-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  gap: 1rem;
-  padding-block: 1rem;
-}
-
+/* 데스크톱에서는 가운데 정렬 + 여유 좌우 여백(화면의 10%) */
 @media (min-width: 1024px) {
-  .alt-row {
-    grid-template-columns: 1fr 1fr; /* 데스크톱에서 2열 */
-    gap: 2rem;
-    padding-block: 2rem;
+  .alt-sections {
+    max-width: 1200px;        /* 가독성 있는 줄폭 */
+    margin: 0 auto;           /* 화면 가운데 */
+    padding-left: 10vw;       /* ← 데스크톱에서만 넉넉한 좌우 여백 */
+    padding-right: 10vw;
   }
 }
 
-/* 좌우 반전: DOM 순서 유지하면서 시각적 순서만 뒤집기 */
-.alt-row.reverse { direction: rtl; }
-.alt-row.reverse > * { direction: ltr; }
+/* 행 */
+.alt-row {
+  display: flex;
+  justify-content: flex-start;
+}
 
-/* 마지막 강조 문장: 중앙 정렬, 단일 컬럼 유지 */
+/* 오른쪽 정렬 버전 */
+.alt-row.reverse {
+  justify-content: flex-end;
+}
+
+/* 가운데 정렬 문장 */
 .alt-row.center-text {
-  grid-template-columns: 1fr;
+  justify-content: center;
   text-align: center;
-  justify-items: center;
 }
 
-/* 텍스트 박스: 줄 길이 제어 + 여백 */
+/* 텍스트 박스 */
 .alt-text {
-  max-width: 64ch;          /* 너무 긴 줄 길이 방지 */
+  max-width: 640px;
   text-align: left;
-  padding: 0 0.5rem;
-  margin: 0 auto;           /* 모바일에서 가운데 정렬 느낌 */
+  padding: 0 8px;
 }
 
-/* ✅ 기존의 고정 마진 제거 (모바일 깨짐 원인) */
-.alt-row:not(.reverse) .alt-text { margin-left: 0; }
-.alt-row.reverse .alt-text { margin-right: 0; }
+/* ✅ 문제의 원인 제거: 옛날 고정 마진 완전 제거 */
+.alt-row:not(.reverse) .alt-text,
+.alt-row.reverse .alt-text {
+  margin: 0; /* ← 예전 400px 여백 규칙을 무효화 */
+}
 
-/* 타이포 반응형 */
+/* 타이포 */
 .alt-subtitle {
   color: #5c4435;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 10px;
-  font-size: clamp(13px, 3.2vw, 15px);
+  font-size: clamp(14px, 1.6vw, 16px);
 }
 
 .alt-title {
-  font-size: clamp(22px, 5.6vw, 32px);
+  font-size: clamp(22px, 3.2vw, 36px);
   font-weight: 800;
   line-height: 1.35;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   color: #1f2937;
   letter-spacing: -0.02em;
 }
 
 .alt-description {
-  font-size: clamp(14px, 3.5vw, 17px);
+  font-size: clamp(14px, 1.6vw, 17px);
   color: #6b7280;
-  line-height: 1.65;
-}
-
-/* 모션 최소화 선호 시 */
-@media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
+  line-height: 1.7;
 }
