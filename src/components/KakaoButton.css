@@ -1,0 +1,40 @@
+/* ===== KakaoButton.css ===== */
+
+.button-kakao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  /* 크기 */
+  width: clamp(220px, 70%, 340px);
+  height: clamp(44px, 6vw, 56px);
+
+  border: none;
+  border-radius: 9999px;
+  background-color: #fee500; /* 카카오 옐로우 */
+  color: #000000;
+  font-weight: 600;
+  font-size: clamp(15px, 3.6vw, 18px);
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* 호버/터치 효과 */
+.button-kakao:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.button-kakao:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* 접근성 */
+.button-kakao:focus-visible {
+  outline: 3px solid #000;
+  outline-offset: 2px;
+}

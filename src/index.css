@@ -1,245 +1,127 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
-
 @import "tailwindcss/preflight";
 @import "tailwindcss/utilities";
 
-/* ✅ 1. :root에서 font-family 제거 */
+/* 1) 전역 변수 (색/스페이싱/라운드) */
 :root {
+  --brand: #624e3e;       /* 브랜드 브라운 */
+  --ink: #0f0f12;         /* 본문 글자 */
+  --muted: #4b5563;       /* 보조 텍스트(gray-600) */
+  --bg: #ffffff;
+  --surface: #f9fafb;     /* footer/bg 톤 */
+  --ring: 3px solid #000; /* focus-visible */
+
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
-
-  background-color: #ffffff;
+  color-scheme: light;    /* 다크미지원이면 light로 고정 */
+  background-color: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 2) 전역 폰트 + ❌ min-width 제거 */
 body {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   margin: 0;
-  min-width: 400px;
+  /* min-width: 400px;  ← 제거! 모바일 가로 스크롤 원인 */
+  color: var(--ink);
+  background: var(--bg);
 }
 
-.main-content a {
-  font-weight: 500;
-  color:#624E3E;
-  text-decoration: inherit;
-}
-.main-content a:hover {
-  color: #624E3E;
-}
+/* 링크 기본 */
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--brand); }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+/* 메인 링크(필요 시) */
+.main-content a { font-weight: 500; color: var(--brand); }
+.main-content a:hover { color: var(--brand); }
 
+/* 제목 예시 (컴포넌트별로 Tailwind 쓰면 생략 가능) */
+h1 { font-size: clamp(24px, 6vw, 32px); line-height: 1.2; }
 
+/* 3) 카카오 버튼(전역 정의 유지 시) */
 .button-kakao {
-  padding: 12px 24px;
-  background-color: #facc15; /* Tailwind yellow-400 */
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  color: #000000;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  width: clamp(220px, 70%, 340px);
+  height: clamp(44px, 6vw, 56px);
+  background-color: #fee500;
+  font-size: clamp(15px, 3.6vw, 18px);
+  font-weight: 600;
+  border: none; border-radius: 9999px; color: #000;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: transform .15s ease, box-shadow .2s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,.08);
 }
+.button-kakao:hover { transform: translateY(-1px); box-shadow: 0 4px 8px rgba(0,0,0,.12); }
+.button-kakao:active { transform: translateY(1px); box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+.button-kakao:focus-visible { outline: var(--ring); outline-offset: 2px; }
 
-
-.button-kakao:hover {
-  background-color: #fbbf24; /* Tailwind yellow-300 */
-  border-color: #e5b93c;
-  transform: scale(1.03);
-}
-
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #624E3E;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
-/*헤더*/
+/* 4) 헤더: sticky 사용으로 정리 (fixed 제거) */
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: white;
+  /* position: fixed;  ← Header.tsx가 sticky 사용하므로 삭제 */
+  background-color: #fff;
   z-index: 50;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
 }
-
 .header-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
 }
+.logo { font-size: clamp(20px, 5vw, 30px); font-weight: 800; color: var(--brand); }
+.nav { display: flex; align-items: center; gap: 24px; font-size: 14px; font-weight: 500; color: #4b5563; }
 
-.logo {
-  font-size: 30px;
-  font-weight: 800;
-  color: #624E3E; 
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #4b5563; /* gray-700 */
-}
-
-.nav a {
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.3s;
-}
-
-
-/* 전체 앱 스타일 */
+/* 5) 앱 래퍼/메인 간격 */
 .app {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  background-color: #ffffff; /* 기존 Tailwind의 bg-red-200과 유사 */
-  color: #000000;
-  font-weight: bold;
-  text-decoration: none;
-  margin: 0;
-  padding: 0;
+  font-family: inherit;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-weight: 400;
+  margin: 0; padding: 0;
 }
-
-/* 메인 콘텐츠 */
 .main {
-  padding-top: 72px; /* 헤더 고정일 경우 높이 확보 */
+  /* padding-top: 72px; ← fixed 헤더용이었음. sticky면 불필요 */
   margin: 0 auto;
 }
 
-/* 링크 스타일 초기화 */
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* 반응형 대응 시 추가 가능 */
-@media (max-width: 768px) {
-  .main {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-}
-
-
+/* 6) Hero: 100vh 대신 min-height + clamp */
 .hero-section {
   width: 100%;
   position: relative;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  min-height: clamp(60vh, 80vh, 92vh);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
   padding: 0 24px;
   background: linear-gradient(to bottom, #ffffff, #fff8f0);
   overflow: hidden;
-  margin: 0;         /* ✅ 필요 시 여백 제거 */
-  box-sizing: border-box; /* ✅ 패딩 포함 너비 계산 */
+  margin: 0; box-sizing: border-box;
 }
-
-/* 캐릭터 이미지 */
+/* 배경 장식 이미지 (필요 시 비활성화/간소화 가능) */
 .hero-images {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.4;
+  position: absolute; inset: 0;
+  z-index: 0; pointer-events: none; opacity: .35;
 }
+.worker { position: absolute; width: clamp(120px, 22vw, 320px); object-fit: contain; top: 50%; transform: translateY(-50%); }
+.worker1 { left: 8%; }
+.worker2 { left: 45%; }
+.worker3 { right: 6%; }
 
-.worker {
-  position: absolute;
-  width: 320px;
-  object-fit: contain;
-  top: 50%;
-  transform: translateY(-50%);
-}
+/* 텍스트 */
+.hero-text { position: relative; z-index: 10; text-align: center; max-width: 640px; }
+.hero-title { font-size: clamp(26px, 6vw, 48px); font-weight: 800; line-height: 1.2; color: var(--ink); letter-spacing: -0.02em; }
+.highlight { color: var(--brand); }
+.hero-subtitle { margin-top: 12px; margin-bottom: 16px; font-size: clamp(14px, 3.6vw, 18px); color: var(--muted); }
 
-.worker1 {
-  left: 10%;
-}
+/* 7) Footer (명도 대비 강화) */
+.footer { background-color: var(--surface); color: #374151; padding: 24px 0; text-align: center; }
+.footer-text { font-size: .875rem; margin: 0; }
+.footer-links { margin-top: 8px; display: flex; justify-content: center; gap: 24px; }
+.footer-links a { color: inherit; transition: color .2s ease; }
+.footer-links a:hover { color: #111827; }
 
-.worker2 {
-  left: 45%;
-}
-
-.worker3 {
-  right: 5%;
-}
-
-/* 텍스트 콘텐츠 */
-.hero-text {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-  max-width: 640px;
-}
-
-.hero-title {
-  font-size: 3rem;
-  font-weight: bold;
-  line-height: 1.3;
-  color: #0f0f12; /* text-gray-900 */
-}
-
-.highlight {
-  color: #624E3E; /* text-blue-600 */
-}
-
-.hero-subtitle {
-  margin-top: 16px;
-  margin-bottom: 16px;
-  font-size: 1rem;
-  color: #0f0f12; /* text-gray-600 */
-}
-
-/*footoer*/
-.footer {
-  background-color: #f9fafb;
-  color: #ced4de; /* 대략 Tailwind의 text-gray-600 */
-  padding: 24px 0;
-  text-align: center;
-}
-
-.footer-text {
-  font-size: 0.875rem; /* 14px */
-  margin: 0;
-}
-
-.footer-links {
-  margin-top: 8px;
-  display: flex;
-  justify-content: center;
-  gap: 32px;
-}
-
-.footer-link {
-  color: inherit;
-  text-decoration: none;
-}
-
-.footer-link:hover {
-  text-decoration: none;
+/* 모바일 여백 보정 (필요 시) */
+@media (max-width: 768px) {
+  .main { padding-left: 16px; padding-right: 16px; }
 }

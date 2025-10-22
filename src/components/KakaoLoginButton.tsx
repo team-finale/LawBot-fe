@@ -1,7 +1,5 @@
 import React from "react";
-
-//const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
-//const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+import "./KakaoButton.css"; // 버튼 전용 스타일 분리 추천
 
 const KakaoLoginButton: React.FC = () => {
   const handleLogin = () => {
@@ -9,9 +7,9 @@ const KakaoLoginButton: React.FC = () => {
   };
 
   return (
-   <button onClick={handleLogin} className="button-kakao">
-  카카오로 시작하기
-</button>
+    <button onClick={handleLogin} className="button-kakao">
+      카카오로 시작하기
+    </button>
   );
 };
 
