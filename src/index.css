@@ -13,7 +13,7 @@
 
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light;    /* 다크미지원이면 light로 고정 */
+  color-scheme: light;
   background-color: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -21,11 +21,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 2) 전역 폰트 + ❌ min-width 제거 */
+/* 2) 전역 폰트 */
 body {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   margin: 0;
-  /* min-width: 400px;  ← 제거! 모바일 가로 스크롤 원인 */
   color: var(--ink);
   background: var(--bg);
 }
@@ -38,18 +37,23 @@ a:hover { color: var(--brand); }
 .main-content a { font-weight: 500; color: var(--brand); }
 .main-content a:hover { color: var(--brand); }
 
-/* 제목 예시 (컴포넌트별로 Tailwind 쓰면 생략 가능) */
+/* 제목 기본 */
 h1 { font-size: clamp(24px, 6vw, 32px); line-height: 1.2; }
 
-/* 3) 카카오 버튼(전역 정의 유지 시) */
+/* 3) 카카오 버튼 */
 .button-kakao {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: clamp(220px, 70%, 340px);
   height: clamp(44px, 6vw, 56px);
   background-color: #fee500;
   font-size: clamp(15px, 3.6vw, 18px);
   font-weight: 600;
-  border: none; border-radius: 9999px; color: #000;
+  border: none;
+  border-radius: 9999px;
+  color: #000;
   cursor: pointer;
   transition: transform .15s ease, box-shadow .2s ease;
   box-shadow: 0 3px 6px rgba(0,0,0,.08);
@@ -58,21 +62,7 @@ h1 { font-size: clamp(24px, 6vw, 32px); line-height: 1.2; }
 .button-kakao:active { transform: translateY(1px); box-shadow: 0 1px 4px rgba(0,0,0,.15); }
 .button-kakao:focus-visible { outline: var(--ring); outline-offset: 2px; }
 
-/* 4) 헤더: sticky 사용으로 정리 (fixed 제거) */
-.header {
-  /* position: fixed;  ← Header.tsx가 sticky 사용하므로 삭제 */
-  background-color: #fff;
-  z-index: 50;
-  box-shadow: 0 1px 4px rgba(0,0,0,.05);
-}
-.header-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 16px 24px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.logo { font-size: clamp(20px, 5vw, 30px); font-weight: 800; color: var(--brand); }
-.nav { display: flex; align-items: center; gap: 24px; font-size: 14px; font-weight: 500; color: #4b5563; }
+/* 4) 헤더 관련 규칙 제거됨 — Header.css에서 전담 */
 
 /* 5) 앱 래퍼/메인 간격 */
 .app {
@@ -80,48 +70,90 @@ h1 { font-size: clamp(24px, 6vw, 32px); line-height: 1.2; }
   background-color: var(--bg);
   color: var(--ink);
   font-weight: 400;
-  margin: 0; padding: 0;
+  margin: 0;
+  padding: 0;
 }
 .main {
-  /* padding-top: 72px; ← fixed 헤더용이었음. sticky면 불필요 */
   margin: 0 auto;
 }
 
-/* 6) Hero: 100vh 대신 min-height + clamp */
+/* 6) Hero 섹션 */
 .hero-section {
   width: 100%;
   position: relative;
   min-height: clamp(60vh, 80vh, 92vh);
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 0 24px;
   background: linear-gradient(to bottom, #ffffff, #fff8f0);
   overflow: hidden;
-  margin: 0; box-sizing: border-box;
+  margin: 0;
+  box-sizing: border-box;
 }
-/* 배경 장식 이미지 (필요 시 비활성화/간소화 가능) */
+
+/* 배경 이미지 */
 .hero-images {
-  position: absolute; inset: 0;
-  z-index: 0; pointer-events: none; opacity: .35;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .35;
 }
 .worker { position: absolute; width: clamp(120px, 22vw, 320px); object-fit: contain; top: 50%; transform: translateY(-50%); }
 .worker1 { left: 8%; }
 .worker2 { left: 45%; }
 .worker3 { right: 6%; }
 
-/* 텍스트 */
-.hero-text { position: relative; z-index: 10; text-align: center; max-width: 640px; }
-.hero-title { font-size: clamp(26px, 6vw, 48px); font-weight: 800; line-height: 1.2; color: var(--ink); letter-spacing: -0.02em; }
+/* Hero 텍스트 */
+.hero-text {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 640px;
+}
+.hero-title {
+  font-size: clamp(26px, 6vw, 48px);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
 .highlight { color: var(--brand); }
-.hero-subtitle { margin-top: 12px; margin-bottom: 16px; font-size: clamp(14px, 3.6vw, 18px); color: var(--muted); }
+.hero-subtitle {
+  margin-top: 12px;
+  margin-bottom: 16px;
+  font-size: clamp(14px, 3.6vw, 18px);
+  color: var(--muted);
+}
 
-/* 7) Footer (명도 대비 강화) */
-.footer { background-color: var(--surface); color: #374151; padding: 24px 0; text-align: center; }
-.footer-text { font-size: .875rem; margin: 0; }
-.footer-links { margin-top: 8px; display: flex; justify-content: center; gap: 24px; }
-.footer-links a { color: inherit; transition: color .2s ease; }
-.footer-links a:hover { color: #111827; }
+/* 7) Footer */
+.footer {
+  background-color: var(--surface);
+  color: #374151;
+  padding: 24px 0;
+  text-align: center;
+}
+.footer-text {
+  font-size: .875rem;
+  margin: 0;
+}
+.footer-links {
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+.footer-links a {
+  color: inherit;
+  transition: color .2s ease;
+}
+.footer-links a:hover {
+  color: #111827;
+}
 
-/* 모바일 여백 보정 (필요 시) */
+/* 8) 모바일 여백 보정 */
 @media (max-width: 768px) {
   .main { padding-left: 16px; padding-right: 16px; }
 }
