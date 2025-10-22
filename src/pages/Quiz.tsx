@@ -23,7 +23,7 @@ api.interceptors.request.use((config) => {
   const token = localStorage.getItem("access_token");
   if (token) {
     config.headers = config.headers ?? {};
-    (config.headers as any).Authorization = `Bearer ${token}`; // ← 백틱
+    (config.headers as any).Authorization = `Bearer ${token}`;
   }
   return config;
 });
@@ -33,8 +33,7 @@ api.interceptors.response.use(
   (err) => {
     if (err?.response?.status === 401) {
       const rt = encodeURIComponent(window.location.pathname + window.location.search);
-      window.location.href = `${KAKAO_START_URL}?return_to=${rt}`; // ← 백틱
-      // 요청 체인 중단
+      window.location.href = `${KAKAO_START_URL}?return_to=${rt}`;
       return Promise.resolve(null as any);
     }
     return Promise.reject(err);
@@ -49,7 +48,7 @@ export default function Quiz() {
     const token = localStorage.getItem("access_token");
     if (!token) {
       const rt = encodeURIComponent(window.location.pathname + window.location.search);
-      window.location.href = `${KAKAO_START_URL}?return_to=${rt}`; // ← 백틱
+      window.location.href = `${KAKAO_START_URL}?return_to=${rt}`;
       return;
     }
     setAuthed(true);
@@ -57,7 +56,7 @@ export default function Quiz() {
 
   const [quizzes, setQuizzes] = useState<QuizItem[]>([]);
   const [answers, setAnswers] = useState<Record<number, "O" | "X">>({});
-  const [idx, setIdx] = useState(0); // ← 현재 문항 인덱스 (0-based)
+  const [idx, setIdx] = useState(0);
 
   const [loadingFetch, setLoadingFetch] = useState(false);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
@@ -100,22 +99,16 @@ export default function Quiz() {
     setAnswers((prev) => ({ ...prev, [qid]: val }));
   };
 
-  const goPrev = () => {
-    if (idx > 0) setIdx((v) => v - 1);
-  };
-  const goNext = () => {
-    if (idx < quizzes.length - 1) setIdx((v) => v + 1);
-  };
+  const goPrev = () => idx > 0 && setIdx((v) => v - 1);
+  const goNext = () => idx < quizzes.length - 1 && setIdx((v) => v + 1);
 
   // 최종 제출
   const submitAll = async () => {
     if (loadingSubmit) return;
 
-    // 미답변 체크
     const unanswered = quizzes.filter((q) => !answers[q.id]);
     if (unanswered.length) {
       alert(`${unanswered.length}개 문항이 미답변입니다.`);
-      // 첫 미답변 위치로 이동
       const firstMissing = quizzes.findIndex((q) => !answers[q.id]);
       if (firstMissing >= 0) setIdx(firstMissing);
       return;
@@ -132,7 +125,6 @@ export default function Quiz() {
       };
       const { data } = await api.post<SubmitResponse>("/quiz/answer", payload);
       setSubmitResult(data);
-      // 결과가 나오면 맨 위로 스크롤(모바일 대비)
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (e: any) {
       setError(e?.response?.data?.detail ?? "정답 제출 실패");
@@ -177,7 +169,7 @@ export default function Quiz() {
 
         {/* 시작하기 / 기록보기 */}
         {quizzes.length === 0 && (
-          <div className="quiz-actions">
+          <div className="quiz-actions" role="group" aria-label="퀴즈 시작/기록">
             <button onClick={fetchQuizzes} disabled={isBusy}>
               {loadingFetch ? "불러오는 중..." : "시작하기"}
             </button>
@@ -196,8 +188,8 @@ export default function Quiz() {
             <div className="progress-label">
               {idx + 1} / {quizzes.length} ({progress}%)
             </div>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: `${progress}%` }} /> {/* ← 백틱 */}
+            <div className="progress-bar" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
+              <div className="progress-fill" style={{ width: `${progress}%` }} />
             </div>
           </div>
         )}
@@ -208,12 +200,13 @@ export default function Quiz() {
             <div className="quiz-category">[{current.category}]</div>
             <div className="quiz-question">{current.question}</div>
 
-            <div className="quiz-one-options">
+            <div className="quiz-one-options" role="listbox" aria-label="O/X 선택">
               <button
                 type="button"
                 className={answers[current.id] === "O" ? "selected" : ""}
                 onClick={() => choose(current.id, "O")}
                 disabled={isBusy}
+                aria-pressed={answers[current.id] === "O"}
               >
                 O
               </button>
@@ -222,6 +215,7 @@ export default function Quiz() {
                 className={answers[current.id] === "X" ? "selected" : ""}
                 onClick={() => choose(current.id, "X")}
                 disabled={isBusy}
+                aria-pressed={answers[current.id] === "X"}
               >
                 X
               </button>
@@ -262,7 +256,7 @@ export default function Quiz() {
           </div>
         )}
 
-        {/* 누적 결과 - 인라인 차트 */}
+        {/* 누적 결과 플레이스홀더/차트 */}
         {loadingHistory && (
           <div className="result-box animate-pulse">
             <div className="h-4 w-32 bg-gray-200 rounded mb-3" />
@@ -273,7 +267,7 @@ export default function Quiz() {
 
         {historyResult && !loadingHistory && (
           <ResultCharts
-            title="누적 결과(카테고리 분포에 따라) "
+            title="누적 결과(카테고리 분포에 따라)"
             categoryCorrect={historyResult.category_correct_count}
           />
         )}

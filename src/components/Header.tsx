@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useEffect as UseEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export default function Header() {
   const [userName, setUserName] = useState<string | null>(null);
