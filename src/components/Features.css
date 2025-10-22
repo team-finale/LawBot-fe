@@ -1,19 +1,42 @@
-/* 섹션 컨테이너 */
+/* ============================
+   Features.css (bleed + responsive)
+   ============================ */
+
+/* 섹션 컨테이너 (내용 박스) */
 .alt-sections {
-  background-color: #f9fafa;
+  position: relative;                 /* ← bleed 배경용 기준점 */
+  background: transparent;            /* 실제 배경은 ::before가 칠함 */
   /* 상하, 좌우 패딩을 기기 폭에 따라 반응형으로 */
   padding: clamp(56px, 8vw, 100px) clamp(16px, 5vw, 40px);
   display: flex;
   flex-direction: column;
   gap: clamp(48px, 8vw, 100px);
+  isolation: isolate;                 /* z-index 컨텍스트 분리(안전) */
 }
 
-/* 데스크톱에서는 가운데 정렬 + 여유 좌우 여백(화면의 10%) */
+/* ✅ 화면 좌우 끝까지 꽉 채우는 배경(bleed) */
+.alt-sections::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+
+  /* 가운데 박스에서 뷰포트 끝까지 확장 */
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+
+  background: #f9fafa;                /* 회색 배경 */
+  z-index: -1;                        /* 내용 뒤로 */
+}
+
+/* 데스크톱: 가운데 정렬 + 넉넉한 좌우 여백 */
 @media (min-width: 1024px) {
   .alt-sections {
-    max-width: 1200px;        /* 가독성 있는 줄폭 */
-    margin: 0 auto;           /* 화면 가운데 */
-    padding-left: 10vw;       /* ← 데스크톱에서만 넉넉한 좌우 여백 */
+    max-width: 1200px;                /* 가독성 있는 줄폭 */
+    margin: 0 auto;                   /* 화면 가운데 */
+    padding-left: 10vw;               /* 여유 좌우 여백 */
     padding-right: 10vw;
   }
 }
@@ -42,13 +65,13 @@
   padding: 0 8px;
 }
 
-/* ✅ 문제의 원인 제거: 옛날 고정 마진 완전 제거 */
+/* ✅ 예전 고정 마진 제거 */
 .alt-row:not(.reverse) .alt-text,
 .alt-row.reverse .alt-text {
-  margin: 0; /* ← 예전 400px 여백 규칙을 무효화 */
+  margin: 0;
 }
 
-/* 타이포 */
+/* 타이포그래피 */
 .alt-subtitle {
   color: #5c4435;
   font-weight: 700;
@@ -63,10 +86,12 @@
   margin-bottom: 16px;
   color: #1f2937;
   letter-spacing: -0.02em;
+  word-break: keep-all;
 }
 
 .alt-description {
   font-size: clamp(14px, 1.6vw, 17px);
   color: #6b7280;
   line-height: 1.7;
+  word-break: keep-all;
 }
