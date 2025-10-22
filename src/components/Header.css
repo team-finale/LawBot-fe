@@ -10,12 +10,12 @@
 
 /* Inner line */
 .hd__inner {
-  height: 64px;
+  height: var(--header-h);                 /* ← 변경: 고정값 → 변수 */
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 16px;
   display: grid;
-  grid-template-columns: 1fr auto auto; /* logo | space | nav/toggle */
+  grid-template-columns: 1fr auto auto;   /* logo | space | nav/toggle */
   align-items: center;
   gap: 12px;
 }
@@ -56,9 +56,7 @@
   background: #fff;
   border: 1px solid #e5e7eb;
 }
-.hd__link--ghost:hover {
-  background: #fafafa;
-}
+.hd__link--ghost:hover { background: #fafafa; }
 
 /* Welcome text */
 .hd__welcome {
@@ -125,8 +123,11 @@
 /* Mobile panel */
 .mnav {
   position: fixed;
-  inset: 64px 0 0 0;               /* header 아래부터 전체 */
+  /* header 아래부터 전체 — 높이 변수 사용 */
+  inset: var(--header-h) 0 0 0;           /* ← 변경: 64px → 변수 */
   background: rgba(0,0,0,.22);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
   opacity: 0; pointer-events: none;
   transition: opacity .15s ease;
 }
@@ -188,4 +189,9 @@
 /* Safe area on iOS */
 @supports(padding: max(0px)) {
   .mnav__list { padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+}
+
+/* (선택) 모션 최소화 환경 배려 */
+@media (prefers-reduced-motion: reduce) {
+  .hd__bar, .mnav, .mnav__list { transition: none; }
 }

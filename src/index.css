@@ -10,6 +10,7 @@
   --bg: #ffffff;
   --surface: #f9fafb;     /* footer/bg 톤 */
   --ring: 3px solid #000; /* focus-visible */
+  --header-h: 64px;       /* 헤더 높이 (Header.css의 .hd__inner 높이와 일치) */
 
   line-height: 1.5;
   font-weight: 400;
@@ -19,6 +20,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* 모바일에서 헤더가 더 낮다면 여기에 덮어쓰기 */
+@media (max-width: 480px) {
+  :root { --header-h: 56px; }
 }
 
 /* 2) 전역 폰트 */
@@ -77,15 +83,21 @@ h1 { font-size: clamp(24px, 6vw, 32px); line-height: 1.2; }
   margin: 0 auto;
 }
 
-/* 6) Hero 섹션 */
+/* 6) Hero 섹션 — 첫 화면 꽉 채우기 (헤더 높이만큼 빼기) */
 .hero-section {
   width: 100%;
   position: relative;
-  min-height: clamp(60vh, 80vh, 92vh);
+
+  /* 폴백 → dvh → svh 순서로 안전 적용 */
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100dvh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   padding: 0 24px;
   background: linear-gradient(to bottom, #ffffff, #fff8f0);
   overflow: hidden;
