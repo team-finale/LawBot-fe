@@ -1,0 +1,191 @@
+/* Root */
+.hd {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: #ffffff;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 8px rgba(17, 24, 39, 0.04);
+}
+
+/* Inner line */
+.hd__inner {
+  height: 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: 1fr auto auto; /* logo | space | nav/toggle */
+  align-items: center;
+  gap: 12px;
+}
+
+/* Logo */
+.hd__logo {
+  font-size: 22px;
+  font-weight: 900;
+  color: #624E3E;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+/* Desktop nav */
+.hd__nav {
+  display: none;
+  align-items: center;
+  gap: 18px;
+}
+@media (min-width: 1024px) {
+  .hd__nav { display: flex; }
+}
+
+/* Links */
+.hd__link {
+  color: #374151;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: background .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.hd__link:hover { background: #f6f6f6; }
+.hd__link:focus-visible { outline: 3px solid #000; outline-offset: 2px; }
+
+.hd__link--ghost {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+}
+.hd__link--ghost:hover {
+  background: #fafafa;
+}
+
+/* Welcome text */
+.hd__welcome {
+  color: #6B7280;
+  font-size: 13px;
+  margin-right: 4px;
+}
+
+/* Language pill */
+.hd__lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 6px;
+  margin-left: 2px;
+  border-left: 1px solid #eee;
+}
+.hd__sep { color: #d1d5db; }
+.hd__langBtn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font-weight: 700;
+  font-size: 13px;
+  color: #6B7280;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 8px;
+}
+.hd__langBtn.is-active {
+  color: #111827;
+  background: #f3f4f6;
+}
+
+/* Toggle (mobile only) */
+.hd__toggle {
+  justify-self: end;
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  display: grid; place-items: center;
+}
+.hd__toggle:focus-visible { outline: 3px solid #000; outline-offset: 2px; }
+@media (min-width: 1024px) {
+  .hd__toggle { display: none; }
+}
+
+/* Hamburger → X */
+.hd__bar, .hd__bar::before, .hd__bar::after {
+  content: "";
+  display: block;
+  width: 18px; height: 2px;
+  background: #111827;
+  transition: transform .2s ease, opacity .2s ease;
+  position: relative;
+}
+.hd__bar::before { position: absolute; top: -6px; }
+.hd__bar::after  { position: absolute; top: 6px; }
+.hd__bar.is-open { background: transparent; }
+.hd__bar.is-open::before { transform: translateY(6px) rotate(45deg); }
+.hd__bar.is-open::after  { transform: translateY(-6px) rotate(-45deg); }
+
+/* Mobile panel */
+.mnav {
+  position: fixed;
+  inset: 64px 0 0 0;               /* header 아래부터 전체 */
+  background: rgba(0,0,0,.22);
+  opacity: 0; pointer-events: none;
+  transition: opacity .15s ease;
+}
+.mnav.is-open { opacity: 1; pointer-events: auto; }
+
+.mnav__list {
+  background: #fff;
+  border-top: 1px solid #eee;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  padding: 10px;
+  transform: translateY(-8px);
+  transition: transform .2s ease;
+}
+.mnav.is-open .mnav__list { transform: translateY(0); }
+
+.mnav__welcome {
+  font-size: 14px;
+  color: #374151;
+  padding: 10px 8px;
+  margin-bottom: 2px;
+  background: #f9fafb;
+  border-radius: 10px;
+}
+
+.mnav__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 10px;
+  margin: 4px 0;
+  border-radius: 10px;
+  color: #111827;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  text-decoration: none;
+}
+.mnav__item:hover { background: #fafafa; }
+.mnav__item:focus-visible { outline: 3px solid #000; outline-offset: 2px; }
+
+.mnav__lang {
+  display: flex; gap: 8px; margin-top: 8px; padding: 8px 2px;
+  border-top: 1px dashed #eee;
+}
+.mnav__langBtn {
+  flex: none;
+  min-height: 36px;
+  padding: 6px 10px;
+  font-weight: 700;
+  border-radius: 9999px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+}
+.mnav__langBtn.is-active { background: #624E3E; color: #fff; border-color: #624E3E; }
+.mnav__langBtn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Safe area on iOS */
+@supports(padding: max(0px)) {
+  .mnav__list { padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+}
