@@ -95,3 +95,8 @@
   line-height: 1.7;
   word-break: keep-all;
 }
+
+/* 섹션 간 구분선 (선택사항) */
+.alt-sections + .alt-sections {
+  border-top: 1px solid #eee;
+}
