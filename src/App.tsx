@@ -13,6 +13,8 @@ import KakaoRedirectPage from './pages/KakaoLoginRedirect';
 import EducationVideo from './pages/Educationvideo';
 import Quiz from './pages/Quiz';
 import QuizInfo from './pages/QuizInfo';
+import Consultants from './components/Consultants';
+
 
 function Home() {
   return (
@@ -32,6 +34,7 @@ function Home() {
         <div className="space-y-10 sm:space-y-14 lg:space-y-20 max-w-screen-xl mx-auto">
           <Hero />
           <Features />
+          <Consultants/>
           <Kakao />
           <Lawyer />
           <Gradio />
