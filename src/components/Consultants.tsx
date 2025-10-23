@@ -1,5 +1,5 @@
 // src/sections/ConsultantsSection.tsx
-import React, { useRef } from "react";
+import { useRef } from "react";
 
 /**
  * 이로운(2lawon) — 노무사 소개 섹션
