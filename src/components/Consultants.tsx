@@ -2,10 +2,11 @@
 import { useRef } from "react";
 
 /**
- * 이로운(2lawon) — 노무사 소개 섹션
+ * 이로운(2lawon) — 노무사 소개 섹션 (최종)
  * - 세련된 타이포 & 여백
  * - 가로 스크롤 + 스냅 + 엣지 페이드 + 화살표 네비
  * - 카드 간 여유 간격, 중앙정렬
+ * - CTA 버튼: 둥근/브랜드 컬러/흰 글씨 굵게
  */
 export default function ConsultantsSection() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -31,10 +32,11 @@ export default function ConsultantsSection() {
         {/* 헤더 */}
         <header className="text-center mb-[clamp(36px,6vw,72px)]">
           <h2 className="text-[clamp(26px,3.6vw,40px)] font-black tracking-[-0.01em] text-[#0f172a]">
-            이로운과 함께하는 노무사들
+            여러분의 대화 속 고민을 분석해, 가장 믿을 수 있는 전문가를 추천합니다
           </h2>
           <p className="mt-3 text-[clamp(15px,1.4vw,18px)] leading-relaxed text-[#475569]">
-            전문가와 함께하는 이로운. 걱정마세요! <span className="hidden md:inline">옆으로 넘겨 더 만나보세요.</span>
+            노무사가 함께하는 이로운에서, 걱정을 나누고 해결책을 찾아보세요{" "}
+            <span className="hidden md:inline">옆으로 넘겨 더 만나보세요</span>
           </p>
         </header>
 
@@ -99,18 +101,14 @@ export default function ConsultantsSection() {
                   />
                 </div>
 
-                {/* 이름 (강조) */}
-               <h3 className="text-[17.5px] sm:text-[19px] font-extrabold text-[#111827] leading-tight tracking-tight drop-shadow-[0_0.4px_0.4px_rgba(0,0,0,0.1)] mb-1">
+                {/* 이름 (extrabold, 자간 조정, 미세 그림자) */}
+                <h3 className="text-[17.5px] sm:text-[19px] font-extrabold text-[#111827] leading-tight tracking-tight drop-shadow-[0_0.4px_0.4px_rgba(0,0,0,0.1)] mb-1">
                   {c.name}
-               </h3>
-                {/* 간단 설명(조금 선명하게) */}
-                <p className="text-[13.5px] font-semibold text-[#334155]">
-                  {c.desc}
-                </p>
+                </h3>
+                {/* 간단 설명 */}
+                <p className="text-[13.5px] font-semibold text-[#334155]">{c.desc}</p>
                 {/* 보조 설명 */}
-                <p className="mt-1.5 text-[13px] text-[#475569] leading-relaxed">
-                  {c.sub}
-                </p>
+                <p className="mt-1.5 text-[13px] text-[#475569] leading-relaxed">{c.sub}</p>
               </article>
             ))}
 
@@ -119,18 +117,19 @@ export default function ConsultantsSection() {
           </div>
         </div>
 
-        {/* CTA */}
+        {/* CTA 버튼 (카카오 스타일 볼륨, 흰 글씨 굵게, 브랜드 컬러 유지) */}
         <div className="text-center mt-[clamp(40px,5vw,68px)]">
-          <a
-            href="#consult"
-            className="inline-block px-6 py-3 rounded-2xl bg-[#624E3E] text-white
-                       text-[15px] sm:text-[16px] font-semibold tracking-tight
-                       shadow-[0_6px_16px_rgba(98,78,62,0.18)]
-                       hover:opacity-95 active:opacity-90 transition"
-          >
-            전문가 상담 시작하기
-          </a>
+            <a
+                href="/gradio"
+                className="inline-flex items-center justify-center w-[clamp(240px,40vw,320px)] h-[clamp(56px,7vw,64px)]
+                           rounded-full bg-[#624E3E] shadow-[0_8px_20px_rgba(98,78,62,0.18)]
+                           hover:brightness-95 active:brightness-90 transition-all duration-200 no-underline"
+                style={{ color: '#fff', fontWeight: 800 }}   // ← 어떤 CSS보다 우선
+            >
+            이로운 시작하기
+            </a>
         </div>
+
       </div>
     </section>
   );
