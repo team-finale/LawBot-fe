@@ -1,21 +1,22 @@
-.gradio-section {
+.educations-section {
   text-align: center;
   background-color: #ffffff;
   padding: 80px 20px;
 }
 
-.gradio-title {
+.educations-title {
   font-size: 32px;
   font-weight: bold;
   margin-bottom: 20px;
 }
 
-.gradio-subtitle {
+.educations-subtitle {
   font-size: 18px;
   margin-bottom: 24px;
 }
 
-.gradio-button {
+/* 공통 스타일 (카카오 버튼과 동일 구조) */
+.educations-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -27,7 +28,7 @@
 
   border: none;
   border-radius: 9999px; /* 완전 둥근 버튼 */
-  background-color: #5c4435; /* 이로운 브라운 */
+  background-color: #5c4435; /* 기존 이로운 브라운 */
   color: #ffffff; /* 흰 글씨 */
   font-weight: 700;
   font-size: clamp(15px, 3.6vw, 18px);
@@ -39,19 +40,19 @@
 }
 
 /* 호버/터치 효과 */
-.gradio-button:hover {
+.educations-button:hover {
   background-color: #3e2e25; /* 어두운 브라운 */
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
 
-.gradio-button:active {
+.educations-button:active {
   transform: translateY(1px);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* 접근성 */
-.gradio-button:focus-visible {
+.educations-button:focus-visible {
   outline: 3px solid #3e2e25;
   outline-offset: 2px;
 }

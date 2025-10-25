@@ -16,18 +16,42 @@
 }
 
 .community-button {
-  padding: 12px 24px;
-  background-color: #5c4435; /* 갈색 */
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  /* 크기 */
+  width: clamp(220px, 70%, 340px);
+  height: clamp(44px, 6vw, 56px);
+
   border: none;
-  border-radius: 6px;
+  border-radius: 9999px; /* 완전 둥근 버튼 */
+  background-color: #5c4435; /* 이로운 브라운 */
+  color: #ffffff; /* 흰 글씨 */
+  font-weight: 700;
+  font-size: clamp(15px, 3.6vw, 18px);
+  line-height: 1;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
 }
 
+/* 호버/터치 효과 */
 .community-button:hover {
-  background-color: #3e2e25;
-  transform: scale(1.03); /* 약간 커지는 효과 */ /* 어두운 갈색 */
+  background-color: #3e2e25; /* 어두운 브라운 */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.community-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* 접근성 */
+.community-button:focus-visible {
+  outline: 3px solid #3e2e25;
+  outline-offset: 2px;
 }

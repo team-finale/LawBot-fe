@@ -1,21 +1,21 @@
-.gradio-section {
+.videos-section {
   text-align: center;
   background-color: #ffffff;
   padding: 80px 20px;
 }
 
-.gradio-title {
+.videos-title {
   font-size: 32px;
   font-weight: bold;
   margin-bottom: 20px;
 }
 
-.gradio-subtitle {
+.videos-subtitle {
   font-size: 18px;
   margin-bottom: 24px;
 }
 
-.gradio-button {
+.videos-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -39,19 +39,19 @@
 }
 
 /* 호버/터치 효과 */
-.gradio-button:hover {
+.videos-button:hover {
   background-color: #3e2e25; /* 어두운 브라운 */
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
 
-.gradio-button:active {
+.videos-button:active {
   transform: translateY(1px);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* 접근성 */
-.gradio-button:focus-visible {
+.videos-button:focus-visible {
   outline: 3px solid #3e2e25;
   outline-offset: 2px;
 }

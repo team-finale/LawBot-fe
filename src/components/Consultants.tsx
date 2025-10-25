@@ -126,7 +126,7 @@ export default function ConsultantsSection() {
                            hover:brightness-95 active:brightness-90 transition-all duration-200 no-underline"
                 style={{ color: '#fff', fontWeight: 800 }}   // ← 어떤 CSS보다 우선
             >
-            이로운 시작하기
+            시작하기
             </a>
         </div>
 
