@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "./Educationvideo.css"; // ✅ 커스텀 CSS 임포트
