@@ -105,9 +105,9 @@
 ========================= */
 .ai-video {
   margin: 24px 0 48px;
+  position: relative;
 }
 
-/* 레이아웃: 안전한 비율과 그림자, radius */
 .ai-stage {
   position: relative;
   overflow: hidden;
