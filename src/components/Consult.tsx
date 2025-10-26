@@ -2,7 +2,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useMemo } from "react";
-import "./consult.css";
+import "./Consult.css";
 
 export default function Consult() {
   // Gradio UI의 경로 설정: /gradio 경로에서 FastAPI가 Gradio UI를 서빙한다고 가정
