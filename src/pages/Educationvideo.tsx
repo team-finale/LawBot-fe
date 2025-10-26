@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import "./EducationVideo.css"; // ✅ 커스텀 CSS 임포트
+import "./Educationvideo.css"; // ✅ 커스텀 CSS 임포트
 
 /**
  * EducationVideo.tsx — "AI 안내 영상" 인터랙티브 플레이어
