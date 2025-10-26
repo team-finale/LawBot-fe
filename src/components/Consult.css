@@ -1,0 +1,63 @@
+/* src/pages/consult.css */
+:root { --header-h: 64px; } /* Header 높이를 변수로 설정 */
+
+.page-wrapper {
+  background: #fff;
+  min-height: 100vh;
+}
+
+.consult-main {
+  padding-top: var(--header-h); /* Header 높이만큼 아래로 밀기 */
+}
+
+.gradio-section {
+  text-align: center;
+  padding: 48px 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gradio-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.gradio-subtitle {
+  font-size: 16px;
+  color: #4B5563;
+  margin-bottom: 24px;
+}
+
+/* Gradio iframe 래퍼: 반응형, 라운드 처리 */
+.gradio-frame-wrap {
+  margin: 24px auto 0;
+  width: 100%;
+  max-width: 1024px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  background: #fff;
+}
+
+/* Gradio iframe 자체 */
+.gradio-frame {
+  width: 100%;
+  height: min(80vh, 900px); /* 화면 높이를 80vh로 설정, 필요 시 조정 */
+  border: 0;
+  display: block;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 640px) {
+  .gradio-title {
+    font-size: 22px;
+  }
+  .gradio-subtitle {
+    font-size: 14px;
+  }
+  .gradio-frame {
+    height: 75vh; /* 모바일에서의 iframe 높이 */
+  }
+}

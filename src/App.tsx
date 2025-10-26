@@ -14,6 +14,7 @@ import QuizInfo from './pages/QuizInfo';
 import Consultants from './components/Consultants';
 import Videos from './components/Video';
 import EducationVideo from './pages/Educationvideo';
+import Consult from './components/Consult';
 
 function Home() {
   return (
@@ -57,6 +58,7 @@ function App() {
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/video" element={<EducationVideo/>}/>
           <Route path="/education" element={<Education />} />
+          <Route path="/consult" element={<Consult/>}/>
           <Route path="/quiz/info" element={<QuizInfo />} />
           <Route path="/community" element={<CommunityBoard />} />
           <Route path="/kakao/callback" element={<KakaoRedirectPage />} />
