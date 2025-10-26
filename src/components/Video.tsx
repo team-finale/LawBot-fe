@@ -7,10 +7,10 @@ const Videos = () => {
 
   return (
     <section id="videos" className="videos-section">
-      <h1 className="videos-title">이로운과 함께하는 노동법 교육</h1>
-      <p className="videos-subtitle">교육 영상을 통해 실생활 속 노동법을 이해하고 익혀보세요</p>
+      <h1 className="videos-title">이로운과 함께하는 최신 고용노동법 교육</h1>
+      <p className="videos-subtitle">고용노동부의 최신 소식과 중요한 정보를 영상으로 쉽게 접할 수 있는 기회를 제공합니다</p>
       <button onClick={() => navigate("/video")} className="videos-button">
-        교육 영상 학습하기
+        새로운 소식 확인하기
       </button>
     </section>
   );

@@ -36,7 +36,7 @@ export default function Header() {
               카카오 로그인
             </a>
           )}
-          <a className="hd__link" href="/video">교육 시작하기</a>
+          <a className="hd__link" href="/video">새로운 소식 확인하기</a>
           <a className="hd__link" href="/quiz/info">퀴즈 풀기</a>
           <a className="hd__link" href="/gradio">상담 시작하기</a>
           <a className="hd__link" href="/community">커뮤니티</a>
@@ -72,7 +72,7 @@ export default function Header() {
           ) : (
             <a className="mnav__item" href="https://2lawon.com/api/users/login/kakao">카카오 로그인</a>
           )}
-          <a className="mnav__item" href="/video">교육 시작하기</a>
+          <a className="mnav__item" href="/video">새로운 소식 확인하기</a>
           <a className="mnav__item" href="/quiz/info">퀴즈 풀기</a>
           <a className="mnav__item" href="/gradio">상담 시작하기</a>
           <a className="mnav__item" href="/community">커뮤니티</a>
