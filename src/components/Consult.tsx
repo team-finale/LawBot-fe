@@ -6,12 +6,7 @@ import "./Consult.css";
 
 export default function Consult() {
   // Gradio UI의 경로 설정: /gradio 경로에서 FastAPI가 Gradio UI를 서빙한다고 가정
-  const gradioSrc = useMemo(() => {
-  const src = `${window.location.origin}/gradio`;
-  console.log("Current Origin:", window.location.origin);  // 현재 URL 출력
-  console.log("Gradio iframe src:", src);  // gradioSrc 값 출력
-  return src;
-}, []);
+  const gradioSrc = useMemo(() => "https://2lawon.com/gradio", []);
 
   return (
     <div className="page-wrapper">
