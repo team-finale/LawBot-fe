@@ -85,7 +85,7 @@ export default function ScenarioPlay() {
         answers: [{ step_id: current.id, answer: answers[current.id] }],
       };
       console.log("➡️ POST", `/quiz/scenarios/${scenarioId}/answers`, payload);
-      const res = await submitScenarioAnswers(scenarioId!, payload);
+      const res = await submitScenarioAnswers(payload);
       console.log("⬅️ RES", res);
       setStepResult(res);
 
@@ -113,7 +113,7 @@ export default function ScenarioPlay() {
         answers: steps.map(s => ({ step_id: s.id, answer: answers[s.id] })),
       };
       console.log("➡️ POST (final)", `/quiz/scenarios/${scenarioId}/answers`, payload);
-      const res = await submitScenarioAnswers(scenarioId!, payload);
+      const res = await submitScenarioAnswers(payload);
       console.log("⬅️ RES (final)", res);
       setFinalResult(res);
     } catch (e: any) {

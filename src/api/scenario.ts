@@ -69,7 +69,7 @@ export const getScenario = async (id: string | number): Promise<ScenarioDetail> 
 
 // ✅ 정답 제출 (백엔드 라우트에 맞게 수정)
 export const submitScenarioAnswers = async (
-  id: string | number,
+  
   payload: ScenarioAnswerReq
 ): Promise<ScenarioAnswerRes> => {
   const { data } = await api.post(`/quiz/scenarios/answers`, payload); // ✅ 수정된 부분
