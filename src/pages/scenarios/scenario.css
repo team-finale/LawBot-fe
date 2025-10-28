@@ -1,239 +1,80 @@
-/* ============================
-   🎮 공통 변수
-============================ */
-:root {
-  --brand: #624e3e;
-  --brand-light: #876e59;
-  --bg-soft: #fffaf6;
-  --line: #e5d6c3;
-  --text-dark: #3e2e25;
-  --accent: #ffcc70;
-}
-
-/* ============================
-   🧱 기본 레이아웃
-============================ */
+/* =============================
+   공통 페이지 구조
+============================= */
 .page-wrapper {
-  background-color: var(--bg-soft);
   min-height: 100vh;
-  font-family: "Pretendard", sans-serif;
-  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  background-color: #fffaf5;
 }
 
 .page-content {
-  padding: 40px 20px;
+  flex: 1;
+  padding-top: var(--header-h, 64px);
 }
 
-.header-fixed {
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  background: var(--bg-soft);
+/* =============================
+   시나리오 목록 (Landing)
+============================= */
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  justify-items: center;
+  margin-top: 10px;
 }
 
-/* ============================
-   📊 진행 게이지
-============================ */
-.progress-bar-wrap {
-  position: relative;
-  background: #f1e7dd;
-  border-radius: 10px;
-  height: 14px;
-  overflow: hidden;
-  box-shadow: inset 0 1px 3px rgba(98, 78, 62, 0.1);
-}
-
-.progress-bar-fill {
-  background: linear-gradient(90deg, var(--brand) 0%, var(--brand-light) 100%);
-  height: 100%;
-  border-radius: 10px;
-  transition: width 0.4s ease;
-}
-
-.progress-text {
-  display: block;
-  margin-top: 8px;
-  text-align: right;
-  font-weight: 600;
-  color: var(--brand);
-  font-size: 0.9rem;
-}
-
-/* ============================
-   🧠 문제 카드 스타일
-============================ */
-.scenario-card {
-  background: var(--bg-soft);
-  border: 2px solid var(--line);
-  border-radius: 18px;
-  padding: 28px;
-  box-shadow: 0 4px 10px rgba(98, 78, 62, 0.12);
-  transition: all 0.3s ease;
-}
-
-.scenario-card:hover {
-  transform: translateY(-2px);
-}
-
-/* 보기 선택 스타일 */
-.choice {
-  display: block;
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  border: 2px solid #e5e7eb;
-  border-radius: 10px;
-  background-color: #ffffff;
-  color: #3e2e25;
-  font-weight: 500;
-  cursor: pointer;
+/* 🟤 카드 박스 */
+.scenario-card-landing {
+  background: #ffffff;
+  border: 2px solid #e5ded8;
+  border-radius: 16px;
+  box-shadow: 0 3px 8px rgba(98, 78, 62, 0.1);
+  padding: 24px 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
   transition: all 0.25s ease;
 }
 
-/* ✅ 호버 시 살짝 진하게 */
-.choice:hover {
+.scenario-card-landing:hover {
   border-color: #bfa28d;
-  background-color: #faf6f2;
+  box-shadow: 0 6px 16px rgba(98, 78, 62, 0.15);
+  background: #fff9f3;
 }
 
-/* ✅ 선택된 상태 (active 클래스) */
-.choice.active {
-  background-color: #624e3e;  /* 브랜드 브라운 */
-  color: #fff;
-  border-color: #624e3e;
-  box-shadow: 0 3px 8px rgba(98, 78, 62, 0.25);
-  transform: scale(1.02);
+/* 🟤 제목/설명 스타일 */
+.scenario-card-landing h3 {
+  font-size: 14px;
+  color: #8b735b;
+  margin-bottom: 4px;
 }
 
-/* ✅ 선택지 키(A/B/C 등)는 살짝 강조 */
-.choice .choice-key {
+.scenario-card-landing h4 {
+  font-size: 18px;
   font-weight: 700;
-  margin-right: 6px;
-}
-
-/* ✅ 피드백 박스 */
-.feedback-box {
-  margin-top: 16px;
-  padding: 12px;
-  text-align: center;
-  border-radius: 8px;
-  font-weight: 600;
-  background-color: #f9f6f4;
   color: #624e3e;
-  transition: 0.3s ease;
+  margin-bottom: 6px;
 }
 
-@keyframes pop {
-  0% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* ============================
-   🏁 결과 박스
-============================ */
-.result-box {
-  background: linear-gradient(135deg, #fffaf6, #fff0e6);
-  border: 2px solid var(--line);
-  border-radius: 18px;
-  padding: 28px;
-  box-shadow: 0 6px 18px rgba(98, 78, 62, 0.15);
-  animation: fadeIn 0.6s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 해설 리스트 */
-.explanations-list {
-  background: #fffaf5;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 16px;
-  margin-top: 12px;
-}
-
-.explanations-list h4 {
-  color: var(--brand);
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.explanations-list p {
+.scenario-card-landing p {
+  color: #5a4636;
   line-height: 1.5;
 }
 
-/* ============================
-   🎮 버튼 공통
-============================ */
-.next-btn,
-.complete-btn {
-  background: var(--brand);
+/* 🟤 버튼 */
+.start-btn {
+  background-color: #624e3e;
   color: #fff;
+  font-weight: 600;
   border: none;
   border-radius: 10px;
-  padding: 12px 20px;
-  font-weight: 600;
+  padding: 10px 22px;
   cursor: pointer;
-  transition: all 0.25s ease;
-  font-size: 1rem;
+  transition: background-color 0.25s ease, transform 0.2s ease;
 }
 
-.next-btn:hover,
-.complete-btn:hover {
-  background: var(--brand-light);
-  transform: translateY(-2px);
-}
-
-.next-btn:disabled {
-  background: #c9bdb6;
-  cursor: not-allowed;
-}
-
-/* ============================
-   🚨 에러 메시지
-============================ */
-.error-box {
-  background: #fff0f0;
-  border: 1px solid #f8d7da;
-  color: #b91c1c;
-  border-radius: 8px;
-  padding: 12px;
-  margin: 16px auto;
-  max-width: 360px;
-  text-align: center;
-}
-
-/* ============================
-   📱 반응형
-============================ */
-@media (max-width: 640px) {
-  .scenario-card {
-    padding: 20px;
-  }
-
-  .next-btn,
-  .complete-btn {
-    padding: 10px 16px;
-    font-size: 0.95rem;
-  }
-
-  .progress-text {
-    font-size: 0.8rem;
-  }
+.start-btn:hover {
+  background-color: #3e2e25;
+  transform: scale(1.05);
 }
