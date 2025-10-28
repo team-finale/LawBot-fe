@@ -28,6 +28,7 @@ export default function ScenarioPlay() {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [currentIdx, setCurrentIdx] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [stepResult, setStepResult] = useState<ScenarioResult | null>(null);
   const [finalResult, setFinalResult] = useState<ScenarioResult | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -81,36 +82,36 @@ export default function ScenarioPlay() {
   const progressPercent = ((currentIdx + 1) / steps.length) * 100;
 
   /** 단일 문항 제출 */
- const submitOneAndUnlock = async () => {
-  if (!answers[current.id]) return;
-  setSubmitting(true);
-  setError(null);
-  try {
-    const payload: ScenarioAnswerReq = {
-      answers: [{ step_id: current.id, answer: answers[current.id] }],
-    };
-    const res = await submitScenarioAnswers(payload);
+  const submitOneAndUnlock = async () => {
+    if (!answers[current.id]) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const payload: ScenarioAnswerReq = {
+        answers: [{ step_id: current.id, answer: answers[current.id] }],
+      };
+      const res = await submitScenarioAnswers(payload);
 
-    // ✅ 응답이 예상 구조와 다를 때를 대비한 보정
-    const normalized: ScenarioResult = {
-      total_correct: res.total_correct ?? 0,
-      explanations: res.explanations ?? {},
-    };
-    setStepResult(normalized);
+      // ✅ 응답 구조 보정
+      const normalized: ScenarioResult = {
+        total_correct: res.total_correct ?? 0,
+        explanations: res.explanations ?? {},
+      };
+      setStepResult(normalized);
 
-    // ✅ 감정형 피드백
-    if (normalized.total_correct > 0) setFeedback("✅ 정답이에요! 잘했어요 🎉");
-    else setFeedback("❌ 아쉬워요! 다시 한 번 생각해봐요 💭");
+      // ✅ 감정형 피드백
+      if (normalized.total_correct > 0) setFeedback("✅ 정답이에요! 잘했어요 🎉");
+      else setFeedback("❌ 아쉬워요! 다시 한 번 생각해봐요 💭");
 
-    if (!isLast) setTimeout(() => setCurrentIdx(i => i + 1), 1200);
-  } catch (e: any) {
-    setError(e?.response?.data?.detail ?? e?.message ?? "정답 제출 실패");
-  } finally {
-    setSubmitting(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setTimeout(() => setFeedback(null), 1500);
-  }
-};
+      if (!isLast) setTimeout(() => setCurrentIdx(i => i + 1), 1200);
+    } catch (e: any) {
+      setError(e?.response?.data?.detail ?? e?.message ?? "정답 제출 실패");
+    } finally {
+      setSubmitting(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => setFeedback(null), 1500);
+    }
+  };
 
   /** 전체 제출 */
   const submitAllAtEnd = async () => {
