@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import useRequireAuth from "../../hooks/useRequireAuth";
@@ -24,17 +25,13 @@ export default function ScenarioPlay() {
   const [finalResult, setFinalResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // ✅ 시나리오 불러오기
   useEffect(() => {
     (async () => {
       try {
         setError(null);
         const data = await getScenario(scenarioId!);
-        console.log("✅ getScenario:", { url: `/quiz/scenarios/${scenarioId}`, data });
-        if (!data || !Array.isArray(data.steps)) throw new Error("시나리오 steps가 없습니다.");
         setDetail(data);
       } catch (e: any) {
-        console.error("❌ getScenario error:", e?.response ?? e);
         setError(e?.response?.data?.detail ?? e?.message ?? "시나리오 로드 실패");
       }
     })();
@@ -44,12 +41,10 @@ export default function ScenarioPlay() {
     return (
       <div className="page-wrapper">
         <div className="header-fixed"><Header /></div>
-        <main className="page-content" style={{ maxWidth: 720, margin: "0 auto" }}>
-          <h2 className="text-xl font-bold mb-2">시나리오 불러오기 실패</h2>
-          <div className="error-box">{error}</div>
-          <button type="button" className="next-btn" onClick={() => nav("/scenarios")}>
-            목록으로
-          </button>
+        <main className="page-content text-center py-20">
+          <h2 className="text-2xl font-bold mb-2">시나리오 불러오기 실패</h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button className="next-btn" onClick={() => nav("/scenarios")}>목록으로</button>
         </main>
         <Footer />
       </div>
@@ -60,8 +55,8 @@ export default function ScenarioPlay() {
     return (
       <div className="page-wrapper">
         <div className="header-fixed"><Header /></div>
-        <main className="page-content" style={{ maxWidth: 720, margin: "0 auto" }}>
-          <p style={{ textAlign: "center", marginTop: 80 }}>로딩 중…</p>
+        <main className="page-content flex justify-center items-center h-[60vh] text-gray-600">
+          로딩 중...
         </main>
         <Footer />
       </div>
@@ -72,7 +67,6 @@ export default function ScenarioPlay() {
   const current = steps[currentIdx];
   const isLast = currentIdx === steps.length - 1;
 
-  // ✅ 한 문제씩 제출
   const submitOneAndUnlock = async () => {
     if (!answers[current.id]) return;
     setSubmitting(true);
@@ -81,16 +75,10 @@ export default function ScenarioPlay() {
       const payload: ScenarioAnswerReq = {
         answers: [{ step_id: current.id, answer: answers[current.id] }],
       };
-      console.log("➡️ POST", `/quiz/scenarios/answers`, payload);
       const res = await submitScenarioAnswers(payload);
-      console.log("⬅️ RES", res);
       setStepResult(res);
-
-      if (!isLast) {
-        setCurrentIdx(i => i + 1);
-      }
+      if (!isLast) setCurrentIdx(i => i + 1);
     } catch (e: any) {
-      console.error("❌ submitScenarioAnswers error:", e?.response ?? e);
       setError(e?.response?.data?.detail ?? e?.message ?? "정답 제출 실패");
     } finally {
       setSubmitting(false);
@@ -98,7 +86,6 @@ export default function ScenarioPlay() {
     }
   };
 
-  // ✅ 최종 제출
   const submitAllAtEnd = async () => {
     setSubmitting(true);
     setError(null);
@@ -106,12 +93,9 @@ export default function ScenarioPlay() {
       const payload: ScenarioAnswerReq = {
         answers: steps.map(s => ({ step_id: s.id, answer: answers[s.id] })),
       };
-      console.log("➡️ POST (final)", `/quiz/scenarios/answers`, payload);
       const res = await submitScenarioAnswers(payload);
-      console.log("⬅️ RES (final)", res);
       setFinalResult(res);
     } catch (e: any) {
-      console.error("❌ submit final error:", e?.response ?? e);
       setError(e?.response?.data?.detail ?? e?.message ?? "최종 제출 실패");
     } finally {
       setSubmitting(false);
@@ -122,43 +106,54 @@ export default function ScenarioPlay() {
   return (
     <div className="page-wrapper">
       <div className="header-fixed"><Header /></div>
-      <main className="page-content" style={{ maxWidth: 720, margin: "0 auto" }}>
-        <h1 className="text-xl font-bold mb-2">{detail.name}</h1>
+      <main className="page-content max-w-xl mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold text-[#624e3e] mb-2">{detail.name}</h1>
         <p className="text-gray-600 mb-4">{detail.description}</p>
 
-        <div className="scenario-progress">
+        <div className="scenario-progress mb-6 font-medium text-[#624e3e] bg-[#f5ede7] rounded-full inline-block px-4 py-1">
           {currentIdx + 1} / {steps.length}
         </div>
 
-        {error && <div className="error-box">{error}</div>}
+        <AnimatePresence mode="wait">
+          <motion.section
+            key={current.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4 }}
+            className="scenario-card bg-[#fffaf6] border-2 border-[#e5d6c3] rounded-2xl shadow-md p-5 mb-6"
+          >
+            <h3 className="font-semibold text-lg mb-4 text-[#3e2e25]">{current.question}</h3>
 
-        <section className="scenario-card mb-4">
-          <h3 className="font-semibold">{current.question}</h3>
+            {Object.entries(current.choices).map(([key, label]) => (
+              <label key={key} className={`choice block px-4 py-2 rounded-lg mb-2 cursor-pointer transition
+                ${answers[current.id] === key
+                  ? "bg-[#624e3e] text-white font-semibold"
+                  : "bg-[#f9f5f1] hover:bg-[#f0e8e0]"}`}>
+                <input
+                  type="radio"
+                  name={`step-${current.id}`}
+                  disabled={submitting}
+                  checked={answers[current.id] === key}
+                  onChange={() => setAnswers(prev => ({ ...prev, [current.id]: key }))}
+                  className="hidden"
+                />
+                <span className="choice-key font-semibold mr-2">{key}.</span>
+                <span>{label}</span>
+              </label>
+            ))}
 
-          {Object.entries(current.choices).map(([key, label]) => (
-            <label key={key} className="choice">
-              <input
-                type="radio"
-                name={`step-${current.id}`}
-                disabled={submitting} // ✅ 항상 활성화
-                checked={answers[current.id] === key}
-                onChange={() => setAnswers(prev => ({ ...prev, [current.id]: key }))}
-              />
-              <span className="choice-key">{key}.</span>
-              <span>{label}</span>
-            </label>
-          ))}
-
-          {/* 오답 시 해설 */}
-          {stepResult?.explanations?.[current.id] && (
-            <div className="explanation">❗ 해설: {stepResult.explanations[current.id]}</div>
-          )}
-        </section>
+            {stepResult?.explanations?.[current.id] && (
+              <div className="explanation mt-3 p-3 border-l-4 border-[#b91c1c] bg-[#fff0f0] text-[#b91c1c] rounded-md">
+                ❗ 해설: {stepResult.explanations[current.id]}
+              </div>
+            )}
+          </motion.section>
+        </AnimatePresence>
 
         {!isLast ? (
           <button
-            type="button"
-            className="next-btn"
+            className="next-btn w-full py-3 rounded-lg bg-[#624e3e] text-white font-semibold hover:bg-[#3e2e25] transition"
             disabled={!answers[current.id] || submitting}
             onClick={submitOneAndUnlock}
           >
@@ -168,42 +163,60 @@ export default function ScenarioPlay() {
           <>
             {!finalResult ? (
               <button
-                type="button"
-                className="next-btn"
+                className="next-btn w-full py-3 rounded-lg bg-[#624e3e] text-white font-semibold hover:bg-[#3e2e25] transition"
                 disabled={submitting || steps.some(s => !answers[s.id])}
                 onClick={submitAllAtEnd}
               >
                 {submitting ? "채점 중…" : "최종 결과 보기 →"}
               </button>
             ) : (
-              <div className="result-box">
-                <h3>🎉 최종 결과</h3>
-                <p>총 정답 수: {finalResult.total_correct} / {steps.length}</p>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="result-box text-center bg-[#fffaf6] border border-[#e6d7c9] rounded-2xl p-6 shadow-inner mt-6"
+              >
+                <h3 className="text-2xl font-bold text-[#624e3e] mb-2">🎉 수고했어요!</h3>
+                <p className="text-gray-700 mb-4">
+                  총{" "}
+                  <span className="font-bold text-[#624e3e]">
+                    {finalResult.total_correct}
+                  </span>{" "}
+                  문제 정답! ({steps.length}문제 중)
+                </p>
+                <p className="text-sm text-gray-600 mb-6">
+                  틀린 문항은 아래 해설을 통해 복습해보세요 👇
+                </p>
 
-                {/* ✅ 해설 리스트 추가 (타입 오류 해결됨) */}
-                {finalResult.explanations && Object.keys(finalResult.explanations).length > 0 && (
-                  <div className="explanations-list mt-4">
-                    <h4 className="font-semibold mb-2">🧐 해설 보기</h4>
-                    {Object.entries(finalResult.explanations as Record<string, string>).map(
-                      ([stepId, text]) => {
-                        const step = steps.find(s => s.id === Number(stepId));
-                        return (
-                          <div key={stepId} className="mb-3 border-t pt-2">
-                            <p className="font-medium text-sm text-gray-700">
-                              {step ? `Q${step.step_order}. ${step.question}` : `문항 ${stepId}`}
-                            </p>
-                            <p className="text-gray-600 text-sm mt-1">{text}</p>
-                          </div>
-                        );
-                      }
-                    )}
-                  </div>
-                )}
+                {finalResult.explanations &&
+                  Object.keys(finalResult.explanations).length > 0 && (
+                    <div className="explanations-list text-left bg-[#fffaf5] border border-[#e6d7c9] rounded-xl p-4">
+                      <h4 className="font-semibold mb-2 text-[#5c4435]">🧐 해설 보기</h4>
+                      {Object.entries(finalResult.explanations as Record<string, string>).map(
+                        ([stepId, text]) => {
+                          const step = steps.find(s => s.id === Number(stepId));
+                          return (
+                            <div key={stepId} className="mb-3 border-t pt-2">
+                              <p className="font-medium text-sm text-gray-700">
+                                {step
+                                  ? `Q${step.step_order}. ${step.question}`
+                                  : `문항 ${stepId}`}
+                              </p>
+                              <p className="text-gray-600 text-sm mt-1">{text}</p>
+                            </div>
+                          );
+                        }
+                      )}
+                    </div>
+                  )}
 
-                <button type="button" className="complete-btn mt-4" onClick={() => nav("/scenarios")}>
-                  목록으로
+                <button
+                  className="complete-btn mt-6 px-6 py-3 rounded-lg bg-[#624e3e] text-white font-semibold hover:bg-[#3e2e25]"
+                  onClick={() => nav("/scenarios")}
+                >
+                  목록으로 돌아가기
                 </button>
-              </div>
+              </motion.div>
             )}
           </>
         )}
