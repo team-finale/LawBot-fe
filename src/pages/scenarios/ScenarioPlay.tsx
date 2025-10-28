@@ -28,7 +28,7 @@ export default function ScenarioPlay() {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [currentIdx, setCurrentIdx] = useState(0);
   const [submitting, setSubmitting] = useState(false);
-  const [stepResult, setStepResult] = useState<ScenarioResult | null>(null);
+  const [ setStepResult] = useState<ScenarioResult | null>(null);
   const [finalResult, setFinalResult] = useState<ScenarioResult | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
