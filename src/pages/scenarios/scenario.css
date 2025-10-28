@@ -3,14 +3,14 @@
 ============================= */
 :root {
   --brand: #624e3e;
-  --brand-dark: #3e2e25;
+  --brand-light: #876e59;
   --bg-soft: #fffaf6;
   --line: #e5d6c3;
-  --text-dark: #2d2d2d;
-  --text-gray: #5a5049;
+  --text-dark: #3e2e25;
+  --text-light: #6b5e54;
 }
 
-/* 전체 배경 */
+/* 페이지 레이아웃 */
 .page-wrapper {
   background-color: var(--bg-soft);
   min-height: 100vh;
@@ -19,83 +19,48 @@
 }
 
 .page-content {
-  padding: 60px 20px;
+  padding: 40px 20px;
 }
 
 /* =============================
-   시나리오 카드 (Landing Page)
+   시나리오 목록 카드
 ============================= */
 article {
-  background-color: #ffffff;              /* ✅ 흰색 배경 */
-  border: 1.5px solid var(--line);
-  border-radius: 20px;
-  padding: 28px 24px;
-  box-shadow: 0 3px 8px rgba(98, 78, 62, 0.08);
+  background: var(--bg-soft);
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 6px rgba(98, 78, 62, 0.08);
   transition: all 0.25s ease;
-  cursor: pointer;
 }
-
 article:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(98, 78, 62, 0.15);
+  box-shadow: 0 6px 14px rgba(98, 78, 62, 0.15);
 }
-
 article h3 {
-  font-size: 1.15rem;
-  font-weight: 700;                      /* ✅ 더 굵게 */
-  color: var(--brand-dark);
-  margin-bottom: 8px;
+  font-size: 1.125rem;
+  color: var(--text-dark);
+  margin-bottom: 6px;
 }
-
 article p {
-  font-size: 0.95rem;
-  color: var(--text-gray);
-  line-height: 1.55;
-  font-weight: 500;                      /* ✅ 텍스트 살짝 굵게 */
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.5;
 }
-
 article button {
   width: 100%;
-  margin-top: 18px;
+  margin-top: 14px;
   background-color: var(--brand);
   color: #fff;
   font-weight: 600;
   border: none;
-  border-radius: 10px;
-  padding: 12px 0;
-  font-size: 1rem;
-  letter-spacing: 0.2px;
-  transition: all 0.2s ease;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
-
 article button:hover {
-  background-color: var(--brand-dark);
-  transform: translateY(-1px);
-}
-
-/* =============================
-   제목 / 안내문구
-============================= */
-h1 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 1.8rem;
-  color: var(--brand-dark);
-  font-weight: 800;
-}
-
-h1::before {
-  content: "🎯";
-  font-size: 1.8rem;
-}
-
-.page-content > p {
-  text-align: center;
-  color: var(--text-gray);
-  font-weight: 500;
-  margin-bottom: 40px;
+  background-color: var(--text-dark);
 }
 
 /* =============================
@@ -109,26 +74,120 @@ h1::before {
   padding: 12px;
   margin: 16px 0;
   text-align: center;
+}
+
+/* =============================
+   시나리오 문제 카드
+============================= */
+.scenario-card {
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 12px rgba(98, 78, 62, 0.1);
+  transition: all 0.3s ease;
+}
+.scenario-card:hover {
+  transform: scale(1.01);
+}
+
+/* 보기 선택 스타일 */
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f9f5f1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin: 8px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.choice:hover {
+  background-color: #f0e8e0;
+}
+.choice input[type="radio"]:checked + .choice-key {
+  color: var(--brand);
+  font-weight: 700;
+}
+
+/* 진행 상태 */
+.scenario-progress {
   font-weight: 600;
+  color: var(--brand);
+  background: #f5ede7;
+  padding: 6px 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+/* 버튼 공통 */
+.next-btn,
+.complete-btn {
+  background-color: var(--brand);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+.next-btn:hover,
+.complete-btn:hover {
+  background-color: var(--text-dark);
+  transform: translateY(-2px);
+}
+
+/* 해설 표시 */
+.explanation {
+  margin-top: 10px;
+  border-left: 4px solid #b91c1c;
+  background: #fff0f0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  color: #b91c1c;
+  font-weight: 500;
+}
+
+/* 결과 박스 */
+.result-box {
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 3px 10px rgba(98, 78, 62, 0.1);
+  margin-top: 20px;
+}
+.result-box h3 {
+  color: var(--brand);
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+.explanations-list {
+  background: #fffaf5;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+}
+.explanations-list h4 {
+  color: var(--text-dark);
+  margin-bottom: 8px;
 }
 
 /* =============================
    반응형
 ============================= */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
+  .scenario-card {
+    padding: 20px;
+  }
   article {
-    padding: 20px 16px;
+    padding: 18px;
   }
-
-  h1 {
-    font-size: 1.5rem;
-  }
-
-  article h3 {
-    font-size: 1.05rem;
-  }
-
-  article p {
-    font-size: 0.9rem;
+  .next-btn {
+    padding: 10px 16px;
   }
 }
