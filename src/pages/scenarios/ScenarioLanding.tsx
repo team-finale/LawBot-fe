@@ -83,7 +83,7 @@ export default function ScenarioLanding() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 whileHover={{ scale: 1.04, rotate: 0.3 }}
                 transition={{ delay: idx * 0.1 }}
-                className="scenario-card-game"
+                className="scenario-card-game2"
               >
                 <div className="badge">Lv.{idx + 1}</div>
                 <h3 className="font-bold text-xl mb-1">{s.name}</h3>
