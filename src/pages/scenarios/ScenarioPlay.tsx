@@ -86,7 +86,6 @@ export default function ScenarioPlay() {
       console.log("⬅️ RES", res);
       setStepResult(res);
 
-      // ✅ 다음 문제로 이동
       if (!isLast) {
         setCurrentIdx(i => i + 1);
       }
@@ -99,7 +98,7 @@ export default function ScenarioPlay() {
     }
   };
 
-  // ✅ 마지막 문제 제출
+  // ✅ 최종 제출
   const submitAllAtEnd = async () => {
     setSubmitting(true);
     setError(null);
@@ -136,13 +135,12 @@ export default function ScenarioPlay() {
         <section className="scenario-card mb-4">
           <h3 className="font-semibold">{current.question}</h3>
 
-          {/* ✅ 보기 선택 항상 가능하게 (잠금 조건 제거) */}
           {Object.entries(current.choices).map(([key, label]) => (
             <label key={key} className="choice">
               <input
                 type="radio"
                 name={`step-${current.id}`}
-                disabled={submitting} // ✅ 수정: 항상 활성화
+                disabled={submitting}
                 checked={answers[current.id] === key}
                 onChange={() => setAnswers(prev => ({ ...prev, [current.id]: key }))}
               />
@@ -181,7 +179,26 @@ export default function ScenarioPlay() {
               <div className="result-box">
                 <h3>🎉 최종 결과</h3>
                 <p>총 정답 수: {finalResult.total_correct} / {steps.length}</p>
-                <button type="button" className="complete-btn" onClick={() => nav("/scenarios")}>
+
+                {/* ✅ 해설 리스트 추가 */}
+                {finalResult.explanations && Object.keys(finalResult.explanations).length > 0 && (
+                  <div className="explanations-list mt-4">
+                    <h4 className="font-semibold mb-2">🧐 해설 보기</h4>
+                    {Object.entries(finalResult.explanations).map(([stepId, text]) => {
+                      const step = steps.find(s => s.id === Number(stepId));
+                      return (
+                        <div key={stepId} className="mb-3 border-t pt-2">
+                          <p className="font-medium text-sm text-gray-700">
+                            {step ? `Q${step.step_order}. ${step.question}` : `문항 ${stepId}`}
+                          </p>
+                          <p className="text-gray-600 text-sm mt-1">{text}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                <button type="button" className="complete-btn mt-4" onClick={() => nav("/scenarios")}>
                   목록으로
                 </button>
               </div>
