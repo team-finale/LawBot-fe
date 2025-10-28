@@ -77,69 +77,49 @@
 
 /* 보기 선택 스타일 */
 .choice {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  border-radius: 10px;
-  background: #f9f5f1;
+  display: block;
+  padding: 14px 16px;
   margin-bottom: 10px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #3e2e25;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.25s ease;
-  user-select: none;
-  border: 2px solid transparent;
-  font-size: 0.95rem;
 }
 
+/* ✅ 호버 시 살짝 진하게 */
 .choice:hover {
-  background: #f0e8e0;
+  border-color: #bfa28d;
+  background-color: #faf6f2;
 }
 
-/* ✅ 선택된 상태 — 진한 배경 강조 */
+/* ✅ 선택된 상태 (active 클래스) */
 .choice.active {
-  background: var(--brand); /* #624e3e */
+  background-color: #624e3e;  /* 브랜드 브라운 */
   color: #fff;
-  border: 2px solid var(--brand-light);
-  box-shadow: 0 0 10px rgba(98, 78, 62, 0.35);
+  border-color: #624e3e;
+  box-shadow: 0 3px 8px rgba(98, 78, 62, 0.25);
   transform: scale(1.02);
-  font-weight: 600;
 }
 
-/* 왼쪽 인디케이터 점 */
-.choice::before {
-  content: "";
-  width: 16px;
-  height: 16px;
-  border: 2px solid #b7a99e;
-  border-radius: 50%;
-  margin-right: 10px;
-  transition: all 0.25s ease;
+/* ✅ 선택지 키(A/B/C 등)는 살짝 강조 */
+.choice .choice-key {
+  font-weight: 700;
+  margin-right: 6px;
 }
 
-.choice.active::before {
-  border-color: #fff;
-  background: #fff;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
-}
-/* 보기 안의 키 (A. B. C. 등) */
-.choice-key {
-  display: inline-block;
-  width: 1.5rem;
-  text-align: center;
-}
-
-/* ============================
-   💬 피드백 메시지
-============================ */
+/* ✅ 피드백 박스 */
 .feedback-box {
+  margin-top: 16px;
+  padding: 12px;
   text-align: center;
-  margin-top: 14px;
+  border-radius: 8px;
   font-weight: 600;
-  color: var(--brand);
-  background: #fff5eb;
-  border-radius: 12px;
-  padding: 10px 14px;
-  animation: pop 0.4s ease;
-  box-shadow: 0 2px 6px rgba(98, 78, 62, 0.08);
+  background-color: #f9f6f4;
+  color: #624e3e;
+  transition: 0.3s ease;
 }
 
 @keyframes pop {

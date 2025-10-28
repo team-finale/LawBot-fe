@@ -28,8 +28,6 @@ export default function ScenarioPlay() {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [currentIdx, setCurrentIdx] = useState(0);
   const [submitting, setSubmitting] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [stepResult, setStepResult] = useState<ScenarioResult | null>(null);
   const [finalResult, setFinalResult] = useState<ScenarioResult | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -92,16 +90,8 @@ export default function ScenarioPlay() {
       };
       const res = await submitScenarioAnswers(payload);
 
-      // ✅ 응답 구조 보정
-      const normalized: ScenarioResult = {
-        total_correct: res.total_correct ?? 0,
-        explanations: res.explanations ?? {},
-      };
-      setStepResult(normalized);
-
-      // ✅ 감정형 피드백
-      if (normalized.total_correct > 0) setFeedback("✅ 정답이에요! 잘했어요 🎉");
-      else setFeedback("❌ 아쉬워요! 다시 한 번 생각해봐요 💭");
+      const correct = res.total_correct ?? 0;
+      setFeedback(correct > 0 ? "✅ 정답이에요! 잘했어요 🎉" : "❌ 아쉬워요! 다시 한 번 생각해봐요 💭");
 
       if (!isLast) setTimeout(() => setCurrentIdx(i => i + 1), 1200);
     } catch (e: any) {
