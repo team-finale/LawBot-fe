@@ -85,7 +85,7 @@ const MoELAiNotice = () => {
           <div className="ai-controls">
             <a
               className="btn-primary"
-              href="https://www.moel.go.kr/board/view?menuId=MENU002050300000000&regNo=5wb95PGMJ7&bbsId=BOARD00006"
+              href="https://m.work24.go.kr/cm/c/f/1100/selecSystInfo.do?currentPageNo=1&recordCountPerPage=10&systId=SI00000318&systClId=SC00000117"
               target="_blank"
               rel="noreferrer"
             >
