@@ -10,7 +10,7 @@ const SecondQuiz = () => {
    
       <p className="scenarios-subtitle">실제 상황을 기반으로 한 문제를 풀어보세요!!</p>
       <button onClick={() => navigate("/scenarios")} className="scenarios-button">
-        시나리오 퀴즈 !!!!!!!!!!!!!!
+        시나리오 퀴즈
       </button>
     </section>
   );

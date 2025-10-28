@@ -36,7 +36,7 @@ export default function ScenarioLanding() {
     <div className="page-wrapper">
       <div className="header-fixed"><Header /></div>
       <main className="page-content" style={{ maxWidth: 1080, margin: "0 auto" }}>
-        <h1 className="text-2xl font-bold mb-4">시나리오 기반 퀴즈</h1>
+        <h1 className="text-2xl font-bold mb-4">실제 상황을 기반으로 한 문제를 풀어보세요 : 시나리오 기반 퀴즈</h1>
 
         {loading && <p>불러오는 중…</p>}
         {err && <div className="error-box">{err}</div>}
