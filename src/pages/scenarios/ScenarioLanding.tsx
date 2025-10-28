@@ -89,7 +89,7 @@ export default function ScenarioLanding() {
                 <h3 className="font-bold text-xl mb-1">{s.name}</h3>
                 <p className="text-gray-700 text-sm mb-4 line-clamp-3">{s.description}</p>
                 <button
-                  className="play-btn"
+                  className="start-btn"
                   onClick={() => nav(`/scenarios/${s.scenario_id}`)}
                 >
                   🚀 도전 시작하기
