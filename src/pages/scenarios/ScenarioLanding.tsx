@@ -37,7 +37,7 @@ export default function ScenarioLanding() {
         <h1 className="text-3xl font-bold text-[#624e3e] mb-3 text-center">
           🎯 실제 상황을 바탕으로 한 시나리오 퀴즈
         </h1>
-        <p className="text-center text-gray-600 mb-10">
+        <p className="text-center text-gray-600 mb-24">
           선택한 시나리오 속에서 현실적인 노동 이슈를 해결해보세요.
         </p>
 
