@@ -90,10 +90,9 @@ export default function ScenarioPlay() {
       setStepResult(res);
 
       // 맞으면 다음 스텝 해금 후 다음 문제로
-      if (Array.isArray(res?.unlocked_step_ids) && res.unlocked_step_ids.length) {
-        setUnlocked(prev => [...prev, ...res.unlocked_step_ids]);
-        if (!isLast) setCurrentIdx(i => i + 1);
-      }
+      if (!isLast) {
+        setCurrentIdx(i => i + 1);
+      }     
       // 틀리면 해설 표시 (화면에 stepResult 사용)
     } catch (e: any) {
       console.error("❌ submitScenarioAnswers error:", e?.response ?? e);
