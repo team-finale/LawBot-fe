@@ -5,6 +5,7 @@ import Footer from "../../components/Footer";
 import useRequireAuth from "../../hooks/useRequireAuth";
 import { listScenarios, type ScenarioBrief } from "../../api/scenario";
 import { motion, AnimatePresence } from "framer-motion";
+import "./scenario.css";
 
 export default function ScenarioLanding() {
   useRequireAuth();
@@ -31,15 +32,26 @@ export default function ScenarioLanding() {
   }, []);
 
   return (
-    <div className="page-wrapper bg-[#fffdfc] min-h-screen">
+    <div className="page-wrapper">
       <div className="header-fixed"><Header /></div>
-      <main className="page-content max-w-5xl mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold text-[#624e3e] mb-3 text-center">
-          🎯 실제 상황을 바탕으로 한 시나리오 퀴즈
-        </h1>
-        <p className="text-center text-gray-600 mb-24">
-          선택한 시나리오 속에서 현실적인 노동 이슈를 해결해보세요.
+      <main className="page-content max-w-6xl mx-auto px-4 py-16 text-center">
+        <motion.h1
+          className="text-4xl font-extrabold text-[#624e3e] mb-2"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          ⚔️ 노동권 미션 선택
+        </motion.h1>
+        <p className="text-gray-600 mb-10">
+          각 시나리오는 현실 속 노동 문제를 바탕으로 구성되어 있습니다.<br />
+          상황을 분석하고, 올바른 결정을 내려 미션을 클리어하세요!
         </p>
+
+        {/* 진행률 바 */}
+        <div className="progress-wrapper mb-12">
+          <div className="progress-bar" style={{ width: `${(items.length / 6) * 100}%` }} />
+          <span className="progress-label">{items.length}개의 시나리오 준비됨</span>
+        </div>
 
         {loading && (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -51,11 +63,8 @@ export default function ScenarioLanding() {
 
         {err && (
           <div className="text-center">
-            <div className="error-box text-red-600 font-medium mb-3">{err}</div>
-            <button
-              className="px-4 py-2 rounded-md border border-gray-400 text-gray-700 hover:bg-gray-100 transition"
-              onClick={() => location.reload()}
-            >
+            <div className="error-box">{err}</div>
+            <button className="retry-btn" onClick={() => location.reload()}>
               다시 시도
             </button>
           </div>
@@ -66,25 +75,24 @@ export default function ScenarioLanding() {
         )}
 
         <AnimatePresence>
-          <motion.div
-            layout
-            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          >
+          <motion.div layout className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {items.map((s, idx) => (
               <motion.article
                 key={s.scenario_id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                whileHover={{ scale: 1.04, rotate: 0.3 }}
                 transition={{ delay: idx * 0.1 }}
-                className="border border-[#e5d6c3] bg-[#fffaf6] rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200"
+                className="scenario-card-game"
               >
-                <h3 className="font-bold text-lg text-[#3e2e25] mb-2">{s.name}</h3>
-                <p className="text-sm text-gray-700 line-clamp-3 mb-4">{s.description}</p>
+                <div className="badge">Lv.{idx + 1}</div>
+                <h3 className="font-bold text-xl mb-1">{s.name}</h3>
+                <p className="text-gray-700 text-sm mb-4 line-clamp-3">{s.description}</p>
                 <button
-                  className="w-full py-2.5 rounded-md bg-[#624e3e] text-white font-semibold hover:bg-[#3e2e25] transition"
+                  className="play-btn"
                   onClick={() => nav(`/scenarios/${s.scenario_id}`)}
                 >
-                  시작하기 →
+                  🚀 도전 시작하기
                 </button>
               </motion.article>
             ))}
