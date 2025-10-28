@@ -20,7 +20,7 @@ const MoELAiNotice = () => {
 
         // 🎯 카카오 로그인된 유저만 영상 접근 가능
         const res = await axios.get(
-          "https://2lawon.com:8000/api/video/stream/aiVideo.mp4",
+          "https://2lawon.com/api/video/stream/aiVideo.mp4",
           {
             headers: { Authorization: `Bearer ${token}` },
             responseType: "blob",
