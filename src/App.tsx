@@ -15,7 +15,7 @@ import Consultants from './components/Consultants';
 import Videos from './components/Video';
 import EducationVideo from './pages/Educationvideo';
 import Consult from './components/Consult';
-import Scenario from './components/Scenario';
+import SecondQuiz from './components/SecondQuiz';
 
 // ✅ 새로 import (추가!)
 import ScenarioLanding from './pages/scenarios/ScenarioLanding';
@@ -44,7 +44,7 @@ function Home() {
           <Education />
 
           {/* ✅ 기존 Scenario 컴포넌트는 Induce section 역할 */}
-          <Scenario />
+          <SecondQuiz/>
 
           <Gradio />
           <Community />

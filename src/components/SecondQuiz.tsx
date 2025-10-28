@@ -1,8 +1,8 @@
 
 import { useNavigate } from "react-router-dom";
-import "./Scenario.css";
+import "./SecondQuiz.css";
 
-const Scenario = () => {
+const SecondQuiz = () => {
   const navigate = useNavigate();
 
   return (
@@ -16,4 +16,4 @@ const Scenario = () => {
   );
 };
 
-export default Scenario;
+export default SecondQuiz;
