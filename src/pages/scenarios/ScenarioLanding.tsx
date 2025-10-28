@@ -86,7 +86,7 @@ export default function ScenarioLanding() {
                 className="scenario-card-game2"
               >
                 <div className="badge">Lv.{idx + 1}</div>
-                <h3 className="font-bold text-xl mb-1">{s.name}</h3>
+                <h3 className="font-black text-3xl mb-1">{s.name}</h3>
                 <p className="text-gray-700 text-sm mb-4 line-clamp-3">{s.description}</p>
                 <button
                   className="start-btn"
