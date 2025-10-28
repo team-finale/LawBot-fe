@@ -140,7 +140,7 @@ export default function ScenarioPlay() {
               <input
                 type="radio"
                 name={`step-${current.id}`}
-                disabled={submitting}
+                disabled={submitting} // ✅ 항상 활성화
                 checked={answers[current.id] === key}
                 onChange={() => setAnswers(prev => ({ ...prev, [current.id]: key }))}
               />
@@ -180,21 +180,23 @@ export default function ScenarioPlay() {
                 <h3>🎉 최종 결과</h3>
                 <p>총 정답 수: {finalResult.total_correct} / {steps.length}</p>
 
-                {/* ✅ 해설 리스트 추가 */}
+                {/* ✅ 해설 리스트 추가 (타입 오류 해결됨) */}
                 {finalResult.explanations && Object.keys(finalResult.explanations).length > 0 && (
                   <div className="explanations-list mt-4">
                     <h4 className="font-semibold mb-2">🧐 해설 보기</h4>
-                    {Object.entries(finalResult.explanations).map(([stepId, text]) => {
-                      const step = steps.find(s => s.id === Number(stepId));
-                      return (
-                        <div key={stepId} className="mb-3 border-t pt-2">
-                          <p className="font-medium text-sm text-gray-700">
-                            {step ? `Q${step.step_order}. ${step.question}` : `문항 ${stepId}`}
-                          </p>
-                          <p className="text-gray-600 text-sm mt-1">{text}</p>
-                        </div>
-                      );
-                    })}
+                    {Object.entries(finalResult.explanations as Record<string, string>).map(
+                      ([stepId, text]) => {
+                        const step = steps.find(s => s.id === Number(stepId));
+                        return (
+                          <div key={stepId} className="mb-3 border-t pt-2">
+                            <p className="font-medium text-sm text-gray-700">
+                              {step ? `Q${step.step_order}. ${step.question}` : `문항 ${stepId}`}
+                            </p>
+                            <p className="text-gray-600 text-sm mt-1">{text}</p>
+                          </div>
+                        );
+                      }
+                    )}
                   </div>
                 )}
 
