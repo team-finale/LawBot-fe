@@ -1,4 +1,3 @@
-// src/pages/scenarios/ScenarioPlay.tsx
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
@@ -19,14 +18,13 @@ export default function ScenarioPlay() {
 
   const [detail, setDetail] = useState<ScenarioDetail | null>(null);
   const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [unlocked, setUnlocked] = useState<number[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
-
   const [submitting, setSubmitting] = useState(false);
   const [stepResult, setStepResult] = useState<any>(null);
   const [finalResult, setFinalResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // ✅ 시나리오 불러오기
   useEffect(() => {
     (async () => {
       try {
@@ -35,7 +33,6 @@ export default function ScenarioPlay() {
         console.log("✅ getScenario:", { url: `/quiz/scenarios/${scenarioId}`, data });
         if (!data || !Array.isArray(data.steps)) throw new Error("시나리오 steps가 없습니다.");
         setDetail(data);
-        if (data.steps.length > 0) setUnlocked([data.steps[0].id]); // 첫 스텝만 오픈
       } catch (e: any) {
         console.error("❌ getScenario error:", e?.response ?? e);
         setError(e?.response?.data?.detail ?? e?.message ?? "시나리오 로드 실패");
@@ -73,9 +70,9 @@ export default function ScenarioPlay() {
 
   const steps = detail.steps;
   const current = steps[currentIdx];
-  const isUnlocked = unlocked.includes(current.id);
   const isLast = currentIdx === steps.length - 1;
 
+  // ✅ 한 문제씩 제출
   const submitOneAndUnlock = async () => {
     if (!answers[current.id]) return;
     setSubmitting(true);
@@ -84,19 +81,17 @@ export default function ScenarioPlay() {
       const payload: ScenarioAnswerReq = {
         answers: [{ step_id: current.id, answer: answers[current.id] }],
       };
-      console.log("➡️ POST", `/quiz/scenarios/${scenarioId}/answers`, payload);
+      console.log("➡️ POST", `/quiz/scenarios/answers`, payload);
       const res = await submitScenarioAnswers(payload);
       console.log("⬅️ RES", res);
       setStepResult(res);
 
-      // 맞으면 다음 스텝 해금 후 다음 문제로
+      // ✅ 다음 문제로 이동
       if (!isLast) {
         setCurrentIdx(i => i + 1);
-      }     
-      // 틀리면 해설 표시 (화면에 stepResult 사용)
+      }
     } catch (e: any) {
       console.error("❌ submitScenarioAnswers error:", e?.response ?? e);
-      // 서버가 HTML 404를 돌려줘도 여기서 잡혀서 화면에만 표기됨 (페이지 이동X)
       setError(e?.response?.data?.detail ?? e?.message ?? "정답 제출 실패");
     } finally {
       setSubmitting(false);
@@ -104,6 +99,7 @@ export default function ScenarioPlay() {
     }
   };
 
+  // ✅ 마지막 문제 제출
   const submitAllAtEnd = async () => {
     setSubmitting(true);
     setError(null);
@@ -111,7 +107,7 @@ export default function ScenarioPlay() {
       const payload: ScenarioAnswerReq = {
         answers: steps.map(s => ({ step_id: s.id, answer: answers[s.id] })),
       };
-      console.log("➡️ POST (final)", `/quiz/scenarios/${scenarioId}/answers`, payload);
+      console.log("➡️ POST (final)", `/quiz/scenarios/answers`, payload);
       const res = await submitScenarioAnswers(payload);
       console.log("⬅️ RES (final)", res);
       setFinalResult(res);
@@ -140,12 +136,13 @@ export default function ScenarioPlay() {
         <section className="scenario-card mb-4">
           <h3 className="font-semibold">{current.question}</h3>
 
+          {/* ✅ 보기 선택 항상 가능하게 (잠금 조건 제거) */}
           {Object.entries(current.choices).map(([key, label]) => (
             <label key={key} className="choice">
               <input
                 type="radio"
                 name={`step-${current.id}`}
-                disabled={!isUnlocked || submitting}
+                disabled={submitting} // ✅ 수정: 항상 활성화
                 checked={answers[current.id] === key}
                 onChange={() => setAnswers(prev => ({ ...prev, [current.id]: key }))}
               />
@@ -162,7 +159,7 @@ export default function ScenarioPlay() {
 
         {!isLast ? (
           <button
-            type="button"                   // ✅ 절대 submit 아님
+            type="button"
             className="next-btn"
             disabled={!answers[current.id] || submitting}
             onClick={submitOneAndUnlock}
@@ -173,7 +170,7 @@ export default function ScenarioPlay() {
           <>
             {!finalResult ? (
               <button
-                type="button"               // ✅ 절대 submit 아님
+                type="button"
                 className="next-btn"
                 disabled={submitting || steps.some(s => !answers[s.id])}
                 onClick={submitAllAtEnd}
