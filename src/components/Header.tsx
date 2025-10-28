@@ -37,9 +37,10 @@ export default function Header() {
             </a>
           )}
           <a className="hd__link" href="/video">새로운 소식 확인하기</a>
-          <a className="hd__link" href="/quiz/info">퀴즈 풀기</a>
+          <a className="hd__link" href="/quiz/info">이로운 퀴즈</a>
+           <a className="hd__link" href="/scenarios">시나리오 퀴즈</a>
           <a className="hd__link" href="/gradio">상담 시작하기</a>
-          <a className="hd__link" href="/community">커뮤니티</a>
+         
 
           {/* 언어 스위치 (토글 느낌) */}
           <div className="hd__lang" role="group" aria-label="언어 선택">
@@ -73,10 +74,10 @@ export default function Header() {
             <a className="mnav__item" href="https://2lawon.com/api/users/login/kakao">카카오 로그인</a>
           )}
           <a className="mnav__item" href="/video">새로운 소식 확인하기</a>
-          <a className="mnav__item" href="/quiz/info">퀴즈 풀기</a>
+          <a className="mnav__item" href="/quiz/info">이로운 퀴즈</a>
+          <a className="mnav__item" href="/scenarios">시나리오 풀기</a>
           <a className="mnav__item" href="/gradio">상담 시작하기</a>
-          <a className="mnav__item" href="/community">커뮤니티</a>
-
+        
           <div className="mnav__lang" role="group" aria-label="언어 선택">
             <button className="mnav__langBtn is-active" aria-pressed="true">한국어</button>
             <button className="mnav__langBtn" aria-pressed="false" disabled>ENG</button>
