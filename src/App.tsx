@@ -17,12 +17,16 @@ import EducationVideo from './pages/Educationvideo';
 import Consult from './components/Consult';
 import Scenario from './components/Scenario';
 
+// ✅ 새로 import (추가!)
+import ScenarioLanding from './pages/scenarios/ScenarioLanding';
+import ScenarioPlay from './pages/scenarios/ScenarioPlay';
+
+
+
 function Home() {
   return (
     <>
       <Header />
-
-      {/* 모바일 기본 → 데스크톱 확장 / X축 깨짐 방지 */}
       <main
         className="
           flex-1
@@ -31,20 +35,21 @@ function Home() {
           px-4 sm:px-6 lg:px-8
         "
       >
-        {/* 컴포넌트 간 간격 통일 (모바일/데스크톱 구간 차등) */}
         <div className="space-y-10 sm:space-y-14 lg:space-y-20 max-w-screen-xl mx-auto">
           <Hero />
           <Features />
-          <Consultants/>
+          <Consultants />
           <Kakao />
-          <Videos/>
+          <Videos />
           <Education />
-          <Scenario/>
+
+          {/* ✅ 기존 Scenario 컴포넌트는 Induce section 역할 */}
+          <Scenario />
+
           <Gradio />
           <Community />
         </div>
       </main>
-
       <Footer />
     </>
   );
@@ -52,17 +57,23 @@ function Home() {
 
 function App() {
   return (
-    // 화면 높이 채우고 Footer를 하단에 고정되듯 밀어내기
     <div className="min-h-dvh flex flex-col bg-white text-gray-900">
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+
+          {/* ✅ 기존 일반 퀴즈 */}
           <Route path="/quiz" element={<Quiz />} />
-          <Route path="/video" element={<EducationVideo/>}/>
-          <Route path="/education" element={<Education />} />
-          <Route path="/consult" element={<Consult/>}/>
           <Route path="/quiz/info" element={<QuizInfo />} />
-          <Route path="/scenario" element={<Scenario/>} />
+
+          {/* ✅ 새 시나리오 퀴즈 링크! */}
+          <Route path="/scenarios" element={<ScenarioLanding />} />
+          <Route path="/scenarios/:scenarioId" element={<ScenarioPlay />} />
+
+          {/* 기존 라우트 유지 */}
+          <Route path="/video" element={<EducationVideo />} />
+          <Route path="/education" element={<Education />} />
+          <Route path="/consult" element={<Consult />} />
           <Route path="/community" element={<CommunityBoard />} />
           <Route path="/kakao/callback" element={<KakaoRedirectPage />} />
         </Routes>
