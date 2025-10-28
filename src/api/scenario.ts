@@ -41,7 +41,7 @@ export type ScenarioAnswerRes = {
 // ✅ 실제 API 함수들
 // =====================
 
-// 🔧 목록: 백엔드가 id로 주든 scenario_id로 주든 scenario_id로 정규화
+// 🔧 목록
 export const listScenarios = async (): Promise<ScenarioBrief[]> => {
   const { data } = await api.get("/quiz/scenarios");
   const arr = Array.isArray(data)
@@ -50,13 +50,13 @@ export const listScenarios = async (): Promise<ScenarioBrief[]> => {
     ? (data as any).items
     : [];
   return arr.map((it: any) => ({
-    scenario_id: Number(it.scenario_id ?? it.id), // ← 핵심
+    scenario_id: Number(it.scenario_id ?? it.id),
     name: String(it.name ?? ""),
     description: String(it.description ?? ""),
   }));
 };
 
-// 🔧 상세: id/scenario_id 상관없이 id로 정규화
+// 🔧 상세
 export const getScenario = async (id: string | number): Promise<ScenarioDetail> => {
   const { data } = await api.get(`/quiz/scenarios/${id}`);
   return {
@@ -67,10 +67,11 @@ export const getScenario = async (id: string | number): Promise<ScenarioDetail> 
   };
 };
 
+// ✅ 정답 제출 (백엔드 라우트에 맞게 수정)
 export const submitScenarioAnswers = async (
   id: string | number,
   payload: ScenarioAnswerReq
 ): Promise<ScenarioAnswerRes> => {
-  const { data } = await api.post(`/quiz/scenarios/${id}/answers`, payload);
+  const { data } = await api.post(`/quiz/scenarios/answers`, payload); // ✅ 수정된 부분
   return data as ScenarioAnswerRes;
 };
